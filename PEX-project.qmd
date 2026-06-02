@@ -1,0 +1,46 @@
+---
+title: "PEX Project: Patient Experience Survey Clustering"
+description: "A portfolio overview of the Patient Experience clustering project, centered on KMeans and data mining methods."
+categories: [Patient Experience, KMeans, Python, Data Mining, Text Analytics, Active Discussion]
+---
+
+## Executive Summary
+
+The PEX Project is a patient experience survey analytics build centered on clustering free-text comments into interpretable service themes. It is being shaped with the Patient Experience manager at Callen-Lorde and is intended to support practical review of recurring issues such as communication, access, wait time, and staff courtesy.
+
+The current direction uses KMeans clustering as the core method, with a lightweight text-processing pipeline that can be expanded as the project matures. As the work evolves, I expect to incorporate additional methodologies to improve cluster quality, validation, and interpretation.
+
+## Why It Exists
+
+Patient experience teams often receive a large volume of open-ended comments that are difficult to review consistently by hand. The aim of this project is to create a repeatable workflow that turns that unstructured feedback into a small set of usable themes, so the stakeholder can move faster from comment volume to operational insight.
+
+## Current Direction
+
+The current technical shape of the work:
+
+* confirm the workbook and text column structure,
+* clean and normalize survey text,
+* convert comments into TF-IDF features,
+* cluster the comments with KMeans, and
+* review cluster terms and representative comments for theme naming.
+
+That structure is intentionally simple right now because the project is still in discussion and scoping. It is the right place to begin before adding more advanced methods from data mining work.
+
+## Working Template
+
+The current notebook template is temporarily unavailable.
+
+## Likely Method Stack
+
+* Python
+* pandas
+* scikit-learn
+* TF-IDF vectorization
+* KMeans clustering
+* matplotlib or seaborn for inspection and presentation
+
+## Next Iteration
+
+As the project becomes more concrete, I expect to add a fuller notebook page with the actual workbook structure, selected preprocessing choices, cluster validation notes, and the final interpretation layer used with the stakeholder.
+
+That later version should make it easier to show how the project moved from exploratory clustering into a decision-support tool for Patient Experience.

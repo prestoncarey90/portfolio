@@ -1,0 +1,40 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+
+website:
+  title: "Preston Carey Leslie II"
+  navbar:
+    pinned: true
+    background: primary
+    search: false
+    right:
+      - href: index.qmd
+        text: Home
+      - text: Active Projects
+        menu: 
+          - href: WHO-project.qmd
+            text: WHO Project
+          - href: PEX-project.qmd
+            text: PEX Project
+      - text: Completed Projects
+        menu:
+          - href: warehouse-project.qmd
+            text: ELT Architecture
+      - href: resume.qmd
+        text: Resume
+        icon: file-text
+
+format:
+  html:
+    theme: sandstone
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap
+    smooth-scroll: true
+    link-external-newwindow: true
+
+execute:
+  enabled: false
