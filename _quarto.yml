@@ -4,7 +4,7 @@ project:
     - "*.qmd"
 
 website:
-  title: "Preston Carey Leslie II"
+  title: "Preston Carey Leslie"
   navbar:
     pinned: true
     background: primary

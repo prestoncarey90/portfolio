@@ -1,6 +1,6 @@
 ---
 title: "Resume"
-description: "A text-first summary of Preston Carey Leslie II's experience in implementation architecture, data strategy, and operational leadership."
+description: "A text-first summary of Preston Carey Leslie's experience in implementation architecture, data strategy, and operational leadership."
 ---
 
 ## Professional Summary
