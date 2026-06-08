@@ -1,0 +1,45 @@
+---
+title: "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing"
+description: "A portfolio overview of the WHO Project, a narrative-first healthcare routing build that connects provider coverage with transit access."
+categories: [Healthcare Data, GCP, dbt, BigQuery, GIS, Transit, Active Development]
+---
+
+## Executive Summary
+
+The WHO (Warm Hand-Off) Project is an active data science and ELT build focused on reducing referral friction for patients who need behavioral health or specialty care beyond an initial clinical visit. Instead of relying on static referral lists, the project is designed to surface viable providers by combining insurance coverage, geospatial context, and transit accessibility in one decision-support workflow.
+
+## Why It Exists
+
+The project originated from front-line crisis intervention and behavioral health triage, where care teams often need to move quickly from an urgent conversation to an external referral. In practice, that hand-off is frequently slowed down by outdated provider lists, incomplete insurance information, and the difficulty of finding care that is actually reachable by a patient's transit route.
+
+The WHO Project treats that referral gap as a data problem. By organizing provider data and MTA transit data into a usable analytical layer, the build aims to make the next step in care easier to identify and easier to trust.
+
+## Current Shape of the Build
+
+The project is structured around a dbt and BigQuery workflow, with Python supporting source ingestion and local exploration. The current notebook work emphasizes:
+
+* identifying active NYS Medicaid and Medicare provider coverage,
+* aligning those records with MTA static GTFS transit data,
+* preserving provider history through slowly changing dimensions, and
+* filtering results for accessibility factors such as subway or bus line proximity and ADA-compliant stops.
+
+This is still an in-progress build, so the notebook is intentionally narrative-first. It documents the problem statement, the source data, the design logic, and the evolving execution log rather than presenting a polished final product.
+
+## What to Inspect Next
+
+If you want to see the project at the moment of inspection, start with the working notebook:
+
+[WHO Narrative-First Data Science Notebook](../../WHO%20Project/WHO%20Narrative-First%20Data%20Science%20Notebook.ipynb)
+
+That notebook is the live working document for the project and includes the project framing, source data notes, core logic, and ongoing development log.
+
+## Technical Snapshot
+
+* **Primary stack:** dbt, BigQuery, Python, SQL, YAML
+* **Source systems:** NYS provider listings, provider network data, and MTA static GTFS files
+* **Modeling approach:** dimensional modeling with SCD Type 2 tracking for provider mobility
+* **Use case:** referral support for behavioral health and other external care pathways
+
+## Portfolio Note
+
+This page is the high-level portfolio view. The notebook is where the current implementation details live, so it is the best place to check for the latest scope, assumptions, and project-state notes.
