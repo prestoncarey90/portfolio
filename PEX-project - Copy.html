@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A portfolio overview of the WHO Project, a narrative-first healthcare routing build that connects provider coverage with transit access.">
+<meta name="description" content="A portfolio overview of the Patient Experience clustering project, centered on KMeans and data mining methods.">
 
-<title>WHO Project: Warm Hand-Off Transit-Accessible Provider Routing – Preston Carey Leslie</title>
+<title>PEX Project: Patient Experience Survey Clustering – Preston Carey Leslie</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -144,10 +144,10 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a></li>
   <li><a href="#why-it-exists" id="toc-why-it-exists" class="nav-link" data-scroll-target="#why-it-exists">Why It Exists</a></li>
-  <li><a href="#current-shape-of-the-build" id="toc-current-shape-of-the-build" class="nav-link" data-scroll-target="#current-shape-of-the-build">Current Shape of the Build</a></li>
-  <li><a href="#what-to-inspect-next" id="toc-what-to-inspect-next" class="nav-link" data-scroll-target="#what-to-inspect-next">What to Inspect Next</a></li>
-  <li><a href="#technical-snapshot" id="toc-technical-snapshot" class="nav-link" data-scroll-target="#technical-snapshot">Technical Snapshot</a></li>
-  <li><a href="#portfolio-note" id="toc-portfolio-note" class="nav-link" data-scroll-target="#portfolio-note">Portfolio Note</a></li>
+  <li><a href="#current-direction" id="toc-current-direction" class="nav-link" data-scroll-target="#current-direction">Current Direction</a></li>
+  <li><a href="#working-template" id="toc-working-template" class="nav-link" data-scroll-target="#working-template">Working Template</a></li>
+  <li><a href="#likely-method-stack" id="toc-likely-method-stack" class="nav-link" data-scroll-target="#likely-method-stack">Likely Method Stack</a></li>
+  <li><a href="#next-iteration" id="toc-next-iteration" class="nav-link" data-scroll-target="#next-iteration">Next Iteration</a></li>
   </ul>
 </nav>
     </div>
@@ -156,21 +156,20 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">WHO Project: Warm Hand-Off Transit-Accessible Provider Routing</h1>
+<h1 class="title">PEX Project: Patient Experience Survey Clustering</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Healthcare Data</div>
-    <div class="quarto-category">GCP</div>
-    <div class="quarto-category">dbt</div>
-    <div class="quarto-category">BigQuery</div>
-    <div class="quarto-category">GIS</div>
-    <div class="quarto-category">Transit</div>
-    <div class="quarto-category">Active Development</div>
+    <div class="quarto-category">Patient Experience</div>
+    <div class="quarto-category">KMeans</div>
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">Data Mining</div>
+    <div class="quarto-category">Text Analytics</div>
+    <div class="quarto-category">Active Discussion</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    A portfolio overview of the WHO Project, a narrative-first healthcare routing build that connects provider coverage with transit access.
+    A portfolio overview of the Patient Experience clustering project, centered on KMeans and data mining methods.
   </div>
 </div>
 
@@ -189,42 +188,44 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="executive-summary" class="level2">
 <h2 class="anchored" data-anchor-id="executive-summary">Executive Summary</h2>
-<p>The WHO (Warm Hand-Off) Project is an active data science and ELT build focused on reducing referral friction for patients who need behavioral health or specialty care beyond an initial clinical visit. Instead of relying on static referral lists, the project is designed to surface viable providers by combining insurance coverage, geospatial context, and transit accessibility in one decision-support workflow.</p>
+<p>The PEX Project is a patient experience survey analytics build centered on clustering free-text comments into interpretable service themes. It is being shaped with the Patient Experience manager at Callen-Lorde and is intended to support practical review of recurring issues such as communication, access, wait time, and staff courtesy.</p>
+<p>The current direction uses KMeans clustering as the core method, with a lightweight text-processing pipeline that can be expanded as the project matures. As the work evolves, I expect to incorporate additional methodologies to improve cluster quality, validation, and interpretation.</p>
 </section>
 <section id="why-it-exists" class="level2">
 <h2 class="anchored" data-anchor-id="why-it-exists">Why It Exists</h2>
-<p>The project originated from front-line crisis intervention and behavioral health triage, where care teams often need to move quickly from an urgent conversation to an external referral. In practice, that hand-off is frequently slowed down by outdated provider lists, incomplete insurance information, and the difficulty of finding care that is actually reachable by a patient’s transit route.</p>
-<p>The WHO Project treats that referral gap as a data problem. By organizing provider data and MTA transit data into a usable analytical layer, the build aims to make the next step in care easier to identify and easier to trust.</p>
+<p>Patient experience teams often receive a large volume of open-ended comments that are difficult to review consistently by hand. The aim of this project is to create a repeatable workflow that turns that unstructured feedback into a small set of usable themes, so the stakeholder can move faster from comment volume to operational insight.</p>
 </section>
-<section id="current-shape-of-the-build" class="level2">
-<h2 class="anchored" data-anchor-id="current-shape-of-the-build">Current Shape of the Build</h2>
-<p>The project is structured around a dbt and BigQuery workflow, with Python supporting source ingestion and local exploration. The current notebook work emphasizes:</p>
+<section id="current-direction" class="level2">
+<h2 class="anchored" data-anchor-id="current-direction">Current Direction</h2>
+<p>The current technical shape of the work:</p>
 <ul>
-<li>identifying active NYS Medicaid and Medicare provider coverage,</li>
-<li>aligning those records with MTA static GTFS transit data,</li>
-<li>preserving provider history through slowly changing dimensions, and</li>
-<li>filtering results for accessibility factors such as subway or bus line proximity and ADA-compliant stops.</li>
+<li>confirm the workbook and text column structure,</li>
+<li>clean and normalize survey text,</li>
+<li>convert comments into TF-IDF features,</li>
+<li>cluster the comments with KMeans, and</li>
+<li>review cluster terms and representative comments for theme naming.</li>
 </ul>
-<p>This is still an in-progress build, so the notebook is intentionally narrative-first. It documents the problem statement, the source data, the design logic, and the evolving execution log rather than presenting a polished final product.</p>
+<p>That structure is intentionally simple right now because the project is still in discussion and scoping. It is the right place to begin before adding more advanced methods from data mining work.</p>
 </section>
-<section id="what-to-inspect-next" class="level2">
-<h2 class="anchored" data-anchor-id="what-to-inspect-next">What to Inspect Next</h2>
-<p>If you want to see the project at the moment of inspection, start with the working notebook:</p>
-<p><a href="../WHO Project/WHO Narrative-First Data Science Notebook.ipynb">WHO Narrative-First Data Science Notebook</a></p>
-<p>That notebook is the live working document for the project and includes the project framing, source data notes, core logic, and ongoing development log.</p>
+<section id="working-template" class="level2">
+<h2 class="anchored" data-anchor-id="working-template">Working Template</h2>
+<p>The current notebook template is temporarily unavailable.</p>
 </section>
-<section id="technical-snapshot" class="level2">
-<h2 class="anchored" data-anchor-id="technical-snapshot">Technical Snapshot</h2>
+<section id="likely-method-stack" class="level2">
+<h2 class="anchored" data-anchor-id="likely-method-stack">Likely Method Stack</h2>
 <ul>
-<li><strong>Primary stack:</strong> dbt, BigQuery, Python, SQL, YAML</li>
-<li><strong>Source systems:</strong> NYS provider listings, provider network data, and MTA static GTFS files</li>
-<li><strong>Modeling approach:</strong> dimensional modeling with SCD Type 2 tracking for provider mobility</li>
-<li><strong>Use case:</strong> referral support for behavioral health and other external care pathways</li>
+<li>Python</li>
+<li>pandas</li>
+<li>scikit-learn</li>
+<li>TF-IDF vectorization</li>
+<li>KMeans clustering</li>
+<li>matplotlib or seaborn for inspection and presentation</li>
 </ul>
 </section>
-<section id="portfolio-note" class="level2">
-<h2 class="anchored" data-anchor-id="portfolio-note">Portfolio Note</h2>
-<p>This page is the high-level portfolio view. The notebook is where the current implementation details live, so it is the best place to check for the latest scope, assumptions, and project-state notes.</p>
+<section id="next-iteration" class="level2">
+<h2 class="anchored" data-anchor-id="next-iteration">Next Iteration</h2>
+<p>As the project becomes more concrete, I expect to add a fuller notebook page with the actual workbook structure, selected preprocessing choices, cluster validation notes, and the final interpretation layer used with the stakeholder.</p>
+<p>That later version should make it easier to show how the project moved from exploratory clustering into a decision-support tool for Patient Experience.</p>
 
 
 </section>
