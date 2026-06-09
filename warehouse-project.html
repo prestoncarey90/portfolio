@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Architecting a scalable dimensional model utilizing BigQuery, Cloud Run, and dbt to transform raw municipal data into actionable operational oversight.">
+<meta name="description" content="Transforming raw municipal data into a unified analytical data bus to drive proactive operational monitoring and strategic oversight.">
 
-<title>Enterprise Data Warehousing: GCP &amp; dbt ELT Pipeline for NYC School Operations – Preston Carey Leslie</title>
+<title>Complaints &amp; Inspections Project (CIP): GCP &amp; dbt Data Platform for Municipal Scale Infrastructure – Preston Carey Leslie</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,41 +23,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -107,6 +72,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -152,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-completed-projects">    
         <li>
     <a class="dropdown-item" href="./warehouse-project.html">
- <span class="dropdown-text">ELT Architecture</span></a>
+ <span class="dropdown-text">CIP Project</span></a>
   </li>  
     </ul>
   </li>
@@ -186,12 +180,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#automated-data-ingestion-python-cloud-run" id="toc-automated-data-ingestion-python-cloud-run" class="nav-link" data-scroll-target="#automated-data-ingestion-python-cloud-run">1. Automated Data Ingestion (Python &amp; Cloud Run)</a></li>
   <li><a href="#dimensional-modeling-transformation-dbt" id="toc-dimensional-modeling-transformation-dbt" class="nav-link" data-scroll-target="#dimensional-modeling-transformation-dbt">2. Dimensional Modeling &amp; Transformation (dbt)</a></li>
-  <li><a href="#the-analytical-layer-strategic-insights" id="toc-the-analytical-layer-strategic-insights" class="nav-link" data-scroll-target="#the-analytical-layer-strategic-insights">3. The Analytical Layer &amp; Strategic Insights</a></li>
-  </ul></li>
-  <li><a href="#technical-artifacts" id="toc-technical-artifacts" class="nav-link" data-scroll-target="#technical-artifacts">Technical Artifacts</a>
-  <ul class="collapse">
-  <li><a href="#entity-relationship-diagram" id="toc-entity-relationship-diagram" class="nav-link" data-scroll-target="#entity-relationship-diagram">Entity-Relationship Diagram</a></li>
-  <li><a href="#infrastructure-lineage" id="toc-infrastructure-lineage" class="nav-link" data-scroll-target="#infrastructure-lineage">Infrastructure Lineage</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -201,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Enterprise Data Warehousing: GCP &amp; dbt ELT Pipeline for NYC School Operations</h1>
+<h1 class="title">Complaints &amp; Inspections Project (CIP): GCP &amp; dbt Data Platform for Municipal Scale Infrastructure</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Data Architecture</div>
     <div class="quarto-category">GCP</div>
@@ -213,7 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Architecting a scalable dimensional model utilizing BigQuery, Cloud Run, and dbt to transform raw municipal data into actionable operational oversight.
+    Transforming raw municipal data into a unified analytical data bus to drive proactive operational monitoring and strategic oversight.
   </div>
 </div>
 
@@ -232,7 +220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="executive-summary" class="level2">
 <h2 class="anchored" data-anchor-id="executive-summary">Executive Summary</h2>
-<p>To provide operational oversight into New York City school conditions, I architected an end-to-end ELT pipeline integrating NYC 311 service requests and Department of Health (DOHMH) cafeteria inspection records. By designing a Kimball-style star schema and deploying automated data ingestion via Google Cloud Platform, I transformed disjointed public datasets into a unified analytical data bus. This infrastructure empowered stakeholders to move from reactive troubleshooting to proactive operational monitoring, identifying critical intersections between public complaints and health violations.</p>
+<p>To institutionalize a data-driven Complaints &amp; Inspections Project (CIP), I architected an end-to-end ELT pipeline integrating high-volume NYC 311 service requests and Department of Health (DOHMH) cafeteria inspection records. By designing a Kimball-style star schema and deploying automated data ingestion via Google Cloud Platform, I transformed disjointed public datasets into a unified analytical data bus. This infrastructure empowers stakeholders to move from reactive troubleshooting to proactive operational monitoring, identifying critical systemic intersections to drive continuous service improvement</p>
 </section>
 <section id="architecture-technical-stack" class="level2">
 <h2 class="anchored" data-anchor-id="architecture-technical-stack">Architecture &amp; Technical Stack</h2>
@@ -244,112 +232,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="project-leadership-execution" class="level3">
 <h3 class="anchored" data-anchor-id="project-leadership-execution">Project Leadership &amp; Execution</h3>
-<p>As the Group Technician, I took full ownership of the systems architecture. Navigating an entirely asynchronous team environment, I operated with high autonomy to establish the technical blueprints, scale the ELT pipeline code, and engineer the final Data Studio dashboards. This structure required strict self-management to ensure all deliverables scaled properly and met rigid project deadlines.</p>
+<p>As the Group Technician, I took full ownership of the systems architecture. Navigating an entirely asynchronous environment, I operated with high autonomy to establish the technical blueprints, scale the ELT pipeline code, and engineer the final Data Studio dashboards. This structure required strict self-management to ensure all deliverables scaled properly and met rigid project deadlines.</p>
 </section>
 </section>
 <section id="the-implementation-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="the-implementation-workflow">The Implementation Workflow</h2>
 <section id="automated-data-ingestion-python-cloud-run" class="level3">
 <h3 class="anchored" data-anchor-id="automated-data-ingestion-python-cloud-run">1. Automated Data Ingestion (Python &amp; Cloud Run)</h3>
-<p>I engineered Python-based extraction services deployed on Google Cloud Run to systematically ingest data from the Socrata API. To ensure pipeline resilience, the scripts dynamically managed offset pagination by querying existing BigQuery row counts and included automated schema-validation logic to dynamically update BigQuery tables if the source API introduced new fields.</p>
+<p>I engineered Python-based extraction services deployed on Google Cloud Run to systematically ingest data from the Socrata API. To ensure pipeline resilience, the scripts dynamically managed offset pagination by querying existing BigQuery row counts and included automated schema-validation logic to dynamically update BigQuery tables if the source API introduced new fields</p>
 </section>
 <section id="dimensional-modeling-transformation-dbt" class="level3">
 <h3 class="anchored" data-anchor-id="dimensional-modeling-transformation-dbt">2. Dimensional Modeling &amp; Transformation (dbt)</h3>
-<p>Operating as the primary technical architect, I designed the staging, dimensional, and fact models using dbt. A significant challenge involved standardizing disparate string inputs and handling the lack of a universal school identifier across municipal agencies. I implemented rigorous normalization logic to ensure data integrity before it reached the analytical layer.</p>
+<p>Operating as the primary technical architect, I designed the staging, dimensional, and fact models using dbt. A significant challenge involved standardizing disparate string inputs and handling the lack of a universal tracking identifier across municipal agencies. I implemented rigorous normalization logic to ensure data integrity before it reached the analytical layer.</p>
 <p><strong>Core Transformation Logic: Enforcing Data Integrity</strong> The following dbt snippet demonstrates the staging logic used to enforce standardization across high-variability fields, ensuring clean dimensional joins downstream:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Standardizing geography and enforcing data types in dbt</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Borough normalization for cleaner dimensional joins</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">CASE</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> <span class="fu">UPPER</span>(<span class="fu">REGEXP_REPLACE</span>(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(borough <span class="kw">AS</span> STRING)), r<span class="st">'\s+'</span>, <span class="st">' '</span>)) <span class="kw">IN</span> (<span class="st">'MANHATTAN'</span>, <span class="st">'NEW YORK COUNTY'</span>) <span class="cf">THEN</span> <span class="st">'Manhattan'</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> <span class="fu">UPPER</span>(<span class="fu">REGEXP_REPLACE</span>(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(borough <span class="kw">AS</span> STRING)), r<span class="st">'\s+'</span>, <span class="st">' '</span>)) <span class="kw">IN</span> (<span class="st">'BRONX'</span>, <span class="st">'THE BRONX'</span>) <span class="cf">THEN</span> <span class="st">'Bronx'</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> <span class="fu">UPPER</span>(<span class="fu">REGEXP_REPLACE</span>(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(borough <span class="kw">AS</span> STRING)), r<span class="st">'\s+'</span>, <span class="st">' '</span>)) <span class="kw">IN</span> (<span class="st">'BROOKLYN'</span>, <span class="st">'KINGS COUNTY'</span>) <span class="cf">THEN</span> <span class="st">'Brooklyn'</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> <span class="fu">UPPER</span>(<span class="fu">REGEXP_REPLACE</span>(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(borough <span class="kw">AS</span> STRING)), r<span class="st">'\s+'</span>, <span class="st">' '</span>)) <span class="kw">IN</span> (<span class="st">'QUEENS'</span>, <span class="st">'QUEEN'</span>, <span class="st">'QUEENS COUNTY'</span>) <span class="cf">THEN</span> <span class="st">'Queens'</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> <span class="fu">UPPER</span>(<span class="fu">REGEXP_REPLACE</span>(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(borough <span class="kw">AS</span> STRING)), r<span class="st">'\s+'</span>, <span class="st">' '</span>)) <span class="kw">IN</span> (<span class="st">'STATEN ISLAND'</span>, <span class="st">'RICHMOND COUNTY'</span>) <span class="cf">THEN</span> <span class="st">'Staten Island'</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> <span class="fu">NULLIF</span>(<span class="fu">REGEXP_REPLACE</span>(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(borough <span class="kw">AS</span> STRING)), r<span class="st">'\s+'</span>, <span class="st">' '</span>), <span class="st">''</span>) <span class="kw">IS</span> <span class="kw">NULL</span> <span class="cf">THEN</span> <span class="kw">NULL</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">ELSE</span> <span class="fu">INITCAP</span>(<span class="fu">REGEXP_REPLACE</span>(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(borough <span class="kw">AS</span> STRING)), r<span class="st">'\s+'</span>, <span class="st">' '</span>))</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">END</span> <span class="kw">AS</span> borough,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">-- Zip code cleanup and preservation of leading zeros</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">CASE</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> <span class="fu">NULLIF</span>(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(zipcode <span class="kw">AS</span> STRING)), <span class="st">''</span>) <span class="kw">IS</span> <span class="kw">NULL</span> <span class="cf">THEN</span> <span class="kw">NULL</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> REGEXP_CONTAINS(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(zipcode <span class="kw">AS</span> STRING)), r<span class="st">'^\d{5}$'</span>) <span class="cf">THEN</span> <span class="fu">TRIM</span>(<span class="fu">CAST</span>(zipcode <span class="kw">AS</span> STRING))</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">WHEN</span> REGEXP_CONTAINS(<span class="fu">TRIM</span>(<span class="fu">CAST</span>(zipcode <span class="kw">AS</span> STRING)), r<span class="st">'^\d{5}-\d{4}$'</span>) <span class="cf">THEN</span> <span class="fu">TRIM</span>(<span class="fu">CAST</span>(zipcode <span class="kw">AS</span> STRING))</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">ELSE</span> <span class="kw">NULL</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="cf">END</span> <span class="kw">AS</span> zip_code,</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="the-analytical-layer-strategic-insights" class="level3">
-<h3 class="anchored" data-anchor-id="the-analytical-layer-strategic-insights">3. The Analytical Layer &amp; Strategic Insights</h3>
-<p>To close the loop between data infrastructure and strategic operations, I constructed an interactive Data Studio dashboard directly connected to our BigQuery fact tables. During modeling, I identified the lack of a universal school identifier across the municipal datasets; consequently, I strategically architected the dashboard to track shared geographic and temporal dimensions rather than forcing inaccurate causal claims.</p>
-<p>The finalized dashboard successfully surfaced actionable operational insights, revealing that rodent-related issues constituted the largest share of school-related complaints (59.4%), and highlighting significant variance in resolution times across different boroughs.</p>
-<style>
-.embed-responsive { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-.embed-responsive iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-.embed-fallback { margin-bottom: .5rem; }
-.embed-responsive:focus-within { outline: 3px solid #005fcc; outline-offset: 3px; border-radius: 4px; }
-.load-btn { display: inline-block; margin: .5rem 0; padding: .5rem .75rem; background: #005fcc; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
-.load-btn:focus { outline: 3px solid #003a80; outline-offset: 3px; }
-.diagram-responsive { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 0.75rem 0; }
-.diagram-responsive iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-</style>
-<p class="embed-fallback">
-Explore the interactive Data Studio dashboard. If the preview does not load, open the full report in a new tab:
-</p>
-<p class="embed-fallback">
-<a href="https://datastudio.google.com/reporting/af082ad1-36a9-452a-b6fd-66b5a8803dcc/page/f6lxF" target="_blank" rel="noopener">Open the Data Studio dashboard (new tab)</a>
-</p>
-<button id="load-dashboard" class="load-btn">
-Load Dashboard
-</button>
-<div id="embed-container" class="embed-responsive" role="region" aria-label="NYC schools Data Studio dashboard" style="display:none;">
-
-</div>
-<script>
-(function(){
-var btn = document.getElementById('load-dashboard');
-var container = document.getElementById('embed-container');
-var embedUrl = 'https://datastudio.google.com/embed/reporting/af082ad1-36a9-452a-b6fd-66b5a8803dcc/page/f6lxF';
-function loadIframe(){
-    if(container.querySelector('iframe')) return;
-    var iframe = document.createElement('iframe');
-    iframe.setAttribute('title','NYC Schools — Data Studio Dashboard');
-    iframe.setAttribute('src', embedUrl);
-    iframe.setAttribute('loading','lazy');
-    iframe.setAttribute('allowfullscreen','');
-    iframe.setAttribute('frameborder','0');
-    container.style.display = 'block';
-    container.appendChild(iframe);
-    if(btn) btn.style.display = 'none';
-}
-if(btn){ btn.addEventListener('click', loadIframe); }
-})();
-</script>
-<noscript>
-<p>
-JavaScript is disabled — open the dashboard directly: <a href="https://datastudio.google.com/reporting/af082ad1-36a9-452a-b6fd-66b5a8803dcc/page/f6lxF" target="_blank" rel="noopener">Open Data Studio report</a>
-</p>
-</noscript>
-</section>
-</section>
-<section id="technical-artifacts" class="level2">
-<h2 class="anchored" data-anchor-id="technical-artifacts">Technical Artifacts</h2>
-<section id="entity-relationship-diagram" class="level3">
-<h3 class="anchored" data-anchor-id="entity-relationship-diagram">Entity-Relationship Diagram</h3>
-<p>
-Final dimensional model utilized for the BigQuery warehouse, featuring conformed dimensions for cross-mart analysis.
-</p>
-<div class="diagram-responsive">
-<iframe src="https://dbdiagram.io/e/699b6979bd82f5fce27156b8/6a1f4d7ef15b4b04525cd922" title="Entity-Relationship diagram of the BigQuery warehouse model" loading="lazy">
-</iframe>
-</div>
-</section>
-<section id="infrastructure-lineage" class="level3">
-<h3 class="anchored" data-anchor-id="infrastructure-lineage">Infrastructure Lineage</h3>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Portfolio Docs/Data Warehousing - CIS 9440/dbt Lineage graph.png" class="img-fluid figure-img" style="width:85.0%" alt="dbt lineage graph screenshot showing the data flow from raw source tables to finalized fact and dimension tables."></p>
-<figcaption>Fig: dbt lineage graph mapping source-to-model transformations</figcaption>
-</figure>
-</div>
+<p>```sql – Standardizing geography and enforcing data types in dbt – Borough normalization for cleaner dimensional joins CASE WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r’+‘,’ ‘)) IN (’MANHATTAN’, ‘NEW YORK COUNTY’) THEN ‘Manhattan’ WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r’+‘,’ ‘)) IN (’BRONX’, ‘THE BRONX’) THEN ‘Bronx’ WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r’+‘,’ ‘)) IN (’BROOKLYN’, ‘KINGS COUNTY’) THEN ‘Brooklyn’ WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r’+‘,’ ‘)) IN (’QUEENS’, ‘QUEEN’, ‘QUEENS COUNTY’) THEN ‘Queens’ WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r’+‘,’ ‘)) IN (’STATEN ISLAND’, ‘RICHMOND COUNTY’) THEN ‘Staten Island’ WHEN NULLIF(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r’+‘,’ ‘),’‘) IS NULL THEN NULL ELSE INITCAP(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r’+‘,’ ’)) END AS borough,</p>
+<p>– Zip code cleanup and preservation of leading zeros CASE WHEN NULLIF(TRIM(CAST(zipcode AS STRING)), ’‘) IS NULL THEN NULL WHEN REGEXP_CONTAINS(TRIM(CAST(zipcode AS STRING)), r’^<span class="math inline">\(') THEN TRIM(CAST(zipcode AS STRING))
+    WHEN REGEXP_CONTAINS(TRIM(CAST(zipcode AS STRING)), r'^\d{5}-\d{4}\)</span>’) THEN TRIM(CAST(zipcode AS STRING)) ELSE NULL END AS zip_code,</p>
 
 
 </section>

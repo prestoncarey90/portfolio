@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A portfolio overview of the Patient Experience clustering project, centered on KMeans and data mining methods.">
+<meta name="description" content="A statistical NLP and data mining initiative designed to transform unstructured patient feedback into actionable operational insights.">
 
 <title>PEX Project: Patient Experience Survey Clustering – Preston Carey Leslie</title>
 <style>
@@ -117,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-completed-projects">    
         <li>
     <a class="dropdown-item" href="./warehouse-project.html">
- <span class="dropdown-text">ELT Architecture</span></a>
+ <span class="dropdown-text">CIP Project</span></a>
   </li>  
     </ul>
   </li>
@@ -142,12 +142,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a></li>
-  <li><a href="#why-it-exists" id="toc-why-it-exists" class="nav-link" data-scroll-target="#why-it-exists">Why It Exists</a></li>
-  <li><a href="#current-direction" id="toc-current-direction" class="nav-link" data-scroll-target="#current-direction">Current Direction</a></li>
-  <li><a href="#working-template" id="toc-working-template" class="nav-link" data-scroll-target="#working-template">Working Template</a></li>
-  <li><a href="#likely-method-stack" id="toc-likely-method-stack" class="nav-link" data-scroll-target="#likely-method-stack">Likely Method Stack</a></li>
-  <li><a href="#next-iteration" id="toc-next-iteration" class="nav-link" data-scroll-target="#next-iteration">Next Iteration</a></li>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a>
+  <ul class="collapse">
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link" data-scroll-target="#the-problem">The Problem</a></li>
+  <li><a href="#the-solution" id="toc-the-solution" class="nav-link" data-scroll-target="#the-solution">The Solution</a></li>
+  </ul></li>
+  <li><a href="#methodology-unsupervised-discovery-vs.-predefined-categories" id="toc-methodology-unsupervised-discovery-vs.-predefined-categories" class="nav-link" data-scroll-target="#methodology-unsupervised-discovery-vs.-predefined-categories">Methodology: Unsupervised Discovery vs.&nbsp;Predefined Categories</a></li>
+  <li><a href="#core-pipeline-architecture" id="toc-core-pipeline-architecture" class="nav-link" data-scroll-target="#core-pipeline-architecture">Core Pipeline Architecture</a></li>
+  <li><a href="#text-ingestion-normalization" id="toc-text-ingestion-normalization" class="nav-link" data-scroll-target="#text-ingestion-normalization">1. Text Ingestion &amp; Normalization</a></li>
+  <li><a href="#feature-extraction-via-tf-idf" id="toc-feature-extraction-via-tf-idf" class="nav-link" data-scroll-target="#feature-extraction-via-tf-idf">2. Feature Extraction via TF-IDF</a></li>
+  <li><a href="#model-calibration-kmeans" id="toc-model-calibration-kmeans" class="nav-link" data-scroll-target="#model-calibration-kmeans">3. Model Calibration (KMeans)</a></li>
+  <li><a href="#result-serialization-export" id="toc-result-serialization-export" class="nav-link" data-scroll-target="#result-serialization-export">4. Result Serialization &amp; Export</a></li>
   </ul>
 </nav>
     </div>
@@ -169,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    A portfolio overview of the Patient Experience clustering project, centered on KMeans and data mining methods.
+    A statistical NLP and data mining initiative designed to transform unstructured patient feedback into actionable operational insights.
   </div>
 </div>
 
@@ -188,44 +193,47 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="executive-summary" class="level2">
 <h2 class="anchored" data-anchor-id="executive-summary">Executive Summary</h2>
-<p>The PEX Project is a patient experience survey analytics build centered on clustering free-text comments into interpretable service themes. It is being shaped with the Patient Experience manager at Callen-Lorde and is intended to support practical review of recurring issues such as communication, access, wait time, and staff courtesy.</p>
-<p>The current direction uses KMeans clustering as the core method, with a lightweight text-processing pipeline that can be expanded as the project matures. As the work evolves, I expect to incorporate additional methodologies to improve cluster quality, validation, and interpretation.</p>
+<p>The PEX Project is a statistical NLP and data mining initiative designed to transform unstructured patient feedback into actionable operational insights. Developed in collaboration with Patient Experience leadership, this tool utilizes text analytics and KMeans clustering to automatically categorize open-ended survey comments into interpretable service themes, such as communication, access, wait time, and staff courtesy.</p>
+<section id="the-problem" class="level3">
+<h3 class="anchored" data-anchor-id="the-problem">The Problem</h3>
+<p>Patient experience teams regularly receive a high volume of free-text comments[cite: 18]. Relying on manual review or basic keyword tallying (e.g., “Ctrl+F” searching) is highly inefficient, difficult to scale, and restricts analysis to preconceived terms. Consequently, valuable operational feedback is often buried in the sheer volume of unstructured data, delaying the team’s ability to identify and address recurring systemic issues.</p>
 </section>
-<section id="why-it-exists" class="level2">
-<h2 class="anchored" data-anchor-id="why-it-exists">Why It Exists</h2>
-<p>Patient experience teams often receive a large volume of open-ended comments that are difficult to review consistently by hand. The aim of this project is to create a repeatable workflow that turns that unstructured feedback into a small set of usable themes, so the stakeholder can move faster from comment volume to operational insight.</p>
+<section id="the-solution" class="level3">
+<h3 class="anchored" data-anchor-id="the-solution">The Solution</h3>
+<p>This project establishes an automated, repeatable workflow that transcends basic text searching. By passing cleaned survey text through a TF-IDF vectorizer and grouping it via KMeans clustering, the tool dynamically discovers recurring themes. This allows stakeholders to rapidly move from reading raw volume to making data-supported operational decisions.</p>
+<hr>
 </section>
-<section id="current-direction" class="level2">
-<h2 class="anchored" data-anchor-id="current-direction">Current Direction</h2>
-<p>The current technical shape of the work:</p>
+</section>
+<section id="methodology-unsupervised-discovery-vs.-predefined-categories" class="level2">
+<h2 class="anchored" data-anchor-id="methodology-unsupervised-discovery-vs.-predefined-categories">Methodology: Unsupervised Discovery vs.&nbsp;Predefined Categories</h2>
+<p>This pipeline utilizes <em>unsupervised machine learning</em>. The algorithm is not trained on preconceived labels and does not inherently know what “Wait Time” or “Staff Courtesy” means. It strictly groups comments based on mathematical similarities and proximity in the vocabulary used.</p>
 <ul>
-<li>confirm the workbook and text column structure,</li>
-<li>clean and normalize survey text,</li>
-<li>convert comments into TF-IDF features,</li>
-<li>cluster the comments with KMeans, and</li>
-<li>review cluster terms and representative comments for theme naming.</li>
+<li><strong>The Algorithm’s Role:</strong> To do the heavy lifting. It objectively sorts thousands of unstructured comments into <em>k</em> distinct, mathematically related clusters.</li>
+<li><strong>The Human’s Role:</strong> To apply business context. The stakeholder reviews the top representative keywords for each generated cluster and assigns the appropriate operational label.</li>
 </ul>
-<p>That structure is intentionally simple right now because the project is still in discussion and scoping. It is the right place to begin before adding more advanced methods from data mining work.</p>
+<p>This dynamic approach ensures that themes emerge naturally from the patients’ actual words. Furthermore, by using a fixed mathematical seed during test set processing, the cluster boundaries are 100% reproducible every time the script is run by the analytics team.</p>
+<hr>
 </section>
-<section id="working-template" class="level2">
-<h2 class="anchored" data-anchor-id="working-template">Working Template</h2>
-<p>The current notebook template is temporarily unavailable.</p>
+<section id="core-pipeline-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="core-pipeline-architecture">Core Pipeline Architecture</h2>
+<p>The technical engine processes the survey workbook through a clean, multi-stage transformation lifecycle:</p>
+<p>```python import pandas as pd import re import string from nltk.stem import WordNetLemmatizer from sklearn.feature_extraction.text import TfidfVectorizer from sklearn.cluster import KMeans</p>
 </section>
-<section id="likely-method-stack" class="level2">
-<h2 class="anchored" data-anchor-id="likely-method-stack">Likely Method Stack</h2>
-<ul>
-<li>Python</li>
-<li>pandas</li>
-<li>scikit-learn</li>
-<li>TF-IDF vectorization</li>
-<li>KMeans clustering</li>
-<li>matplotlib or seaborn for inspection and presentation</li>
-</ul>
+<section id="text-ingestion-normalization" class="level1">
+<h1>1. Text Ingestion &amp; Normalization</h1>
+<p>def clean_text(text, stop_words): lem = WordNetLemmatizer() text = str(text).lower() text = text.translate(str.maketrans(string.punctuation, ’ ’ * len(string.punctuation))) tokens = re.split(r’+‘, text) tokens = [lem.lemmatize(token) for token in tokens if token.isalpha() and token not in stop_words] return’ ’.join(tokens)</p>
 </section>
-<section id="next-iteration" class="level2">
-<h2 class="anchored" data-anchor-id="next-iteration">Next Iteration</h2>
-<p>As the project becomes more concrete, I expect to add a fuller notebook page with the actual workbook structure, selected preprocessing choices, cluster validation notes, and the final interpretation layer used with the stakeholder.</p>
-<p>That later version should make it easier to show how the project moved from exploratory clustering into a decision-support tool for Patient Experience.</p>
+<section id="feature-extraction-via-tf-idf" class="level1">
+<h1>2. Feature Extraction via TF-IDF</h1>
+<p>tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=2) tfidf_matrix = tfidf_vectorizer.fit_transform(df[“cleaned_text”])</p>
+</section>
+<section id="model-calibration-kmeans" class="level1">
+<h1>3. Model Calibration (KMeans)</h1>
+<p>k = 5 km = KMeans(n_clusters=k, random_state=42, n_init=10) km.fit(tfidf_matrix) df[“cluster”] = km.labels_</p>
+</section>
+<section id="result-serialization-export" class="level1">
+<h1>4. Result Serialization &amp; Export</h1>
+<p>output_path = r”patient_experience_clustered_results.xlsx” df.to_excel(output_path, index=False)</p>
 
 
 </section>
