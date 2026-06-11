@@ -1,0 +1,101 @@
+---
+title: "Resume"
+description: "A text-first summary of Preston Carey Leslie's experience in implementation architecture, data strategy, and operational leadership."
+---
+
+## Professional Summary
+
+Strategic Policy Analyst and Healthcare Implementation Architect with 9+ years of operational leadership and 5 years in high-stakes healthcare systems. I bridge the gap between clinical intent and technical reality through data architecture, system governance, and clear stakeholder translation. My work centers on building reliable infrastructure for complex civic and healthcare environments.
+
+## Core Competencies
+
+- Data Architecture & Engineering: dbt, BigQuery, SQL, Python, YAML, and API integration logic.
+<<<<<<< HEAD
+- Systems & Software Auditing: Enterprise EHR migration advocacy (Epic), operational workflow analysis, and access provisioning/permissions auditing.
+=======
+- Systems Implementation: Enterprise EHR migration (Epic), SaaS configuration, and complex permissions logic.
+>>>>>>> 0638db9c6caafb7a2571bf3bb2e78789d845923f
+- Dimensional Modeling: Kimball-style star schemas, ELT pipeline design, and relational database architecture (3NF).
+- Operational Leadership: Cross-functional team scaling, process stabilization, and contingent workforce management.
+- Strategic Governance: Technical documentation, stakeholder translation, UAT leadership, and front-line data protection.
+
+## Experience
+
+### Lead Patient Care Associate
+Callen-Lorde | 2021-2026
+
+<<<<<<< HEAD
+- Directed technical advocacy and operational data governance audits during an 18,000-patient Epic EHR migration, reporting directly to executive leadership to unblock operational friction.
+=======
+- Directed technical advocacy and data governance during an 18,000-patient Epic EHR migration, reporting directly to executive leadership to unblock operational friction.
+>>>>>>> 0638db9c6caafb7a2571bf3bb2e78789d845923f
+- Resolved 10-20 high-friction systemic issues daily, serving as a critical escalation point to protect data integrity and ensure equitable care access for trans and nonbinary patients.
+- Served as a Union Delegate for 300+ staff members, navigating two contract negotiations and utilizing horizontal peer communication to protect worker scopes.
+- Diagnosed critical gaps in crisis triage and behavioral health referral workflows through direct collaboration with front-line stakeholders, identifying the systemic friction that directly informs my independent, post-graduate architectural builds.
+
+### Server, F&B Reservation Agent, and Event Coordinator
+<<<<<<< HEAD
+The Standard Hotels, ABCV | 2015-2021
+=======
+The Standard Hotels, ABCV | 2017-2021
+>>>>>>> 0638db9c6caafb7a2571bf3bb2e78789d845923f
+
+- Orchestrated complex operational data and customer logic across seven NYC-based venues using enterprise CRM systems (OpenTable, SevenRooms, and Tripleseat).
+- Safeguarded record accuracy and process continuity in a shared global CRM environment, supporting 300+ daily guest interactions in a high-concurrency setting.
+- Facilitated event contracts, procurement, and seamless service coordination, translating high-volume hospitality demands into structured operational workflows.
+
+### Senior Program and Account Lead
+Del Monsoon | 2010-2019
+
+- Acted as the core operational lead, dynamically scaling execution teams from a two-person nucleus to upwards of 100+ contingent staff and cross-functional subcontractors to deliver high-stakes project mandates.
+- Directed end-to-end project delivery, managed event budgets, invoicing, and vendor logistics for complex engagements serving 1,000+ attendees.
+- Identified and converted organic growth opportunities, generating over $60K in new business through relationship management and flawless operational continuity.
+
+## Selected Projects
+
+### Transit-Accessible Provider Routing (The WHO Project)
+
+Architecting a dbt and BigQuery ELT pipeline to integrate NYS Medicaid/Medicare Provider data with MTA Static GTFS transit data. Utilizing Slowly Changing Dimensions to track provider mobility and bridge the geospatial "referral gap" for patients over systemic barriers.
+
+### Patient Experience Survey Clustering
+
+Designing a KMeans-based clustering workflow for open-ended patient-experience survey comments, with the goal of converting unstructured feedback into interpretable service themes and actionable operational insight.
+
+### Geospatial Advocacy & Predictive Modeling
+
+Built a contextual statistical model using Poisson regression to evaluate socioeconomic resource drivers in New York City, unmasking institutional anomalies that distort public healthcare allocation.  
+
+### Healthcare Systems Modeling Research
+
+Conducted a comprehensive 15-year literature review analyzing quantitative modeling methodologies within healthcare ecosystems. Evaluated historical operational bottlenecks, current systemic solutions, and unaddressed gaps in care delivery optimization.
+
+### Statistical Analysis of Clinical Metrics
+
+Utilized R to execute simple linear regression modeling, evaluating the effects of specific independent variables on patient glucose levels to demonstrate foundational competency in programmatic data evaluation.
+
+## Education
+
+### Master of Science, Quantitative Methods and Modeling
+Baruch College, Zicklin School of Business | June 2026
+
+Relevant coursework includes Data Warehousing and Analytics, Simulation Modeling and Analysis, Modern Regression Analysis, Corporate Finance, Data Visualization, Data Mining for Business Analytics, Principles of Database Management, and Programming for Analytics.
+
+### Bachelor of Arts, French; Minor in Art History
+Francis Marion University
+
+## Certifications
+
+- Alteryx Designer Core Certification, Alteryx
+- Teaching English as a Second or Foreign Language, Literacy Assistance Center Academy
+- DELF A1/A2, Université de Caen Basse-Normandie
+- Certified COVID-19 Contact Tracer, Johns Hopkins University
+
+## Community Leadership
+
+Co-Founder and Event Producer, Queer Roots Cinema | 2021-Present
+
+## Contact
+
+Email: prestoncarey90@gmail.com  
+Phone: 843.694.6959  
+LinkedIn: linkedin.com/in/preston-leslie/

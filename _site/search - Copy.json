@@ -1,0 +1,212 @@
+[
+  {
+    "objectID": "warehouse-project.html",
+    "href": "warehouse-project.html",
+    "title": "Enterprise Data Warehousing: GCP & dbt ELT Pipeline for NYC School Operations",
+    "section": "",
+    "text": "To provide operational oversight into New York City school conditions, I architected an end-to-end ELT pipeline integrating NYC 311 service requests and Department of Health (DOHMH) cafeteria inspection records. By designing a Kimball-style star schema and deploying automated data ingestion via Google Cloud Platform, I transformed disjointed public datasets into a unified analytical data bus. This infrastructure empowered stakeholders to move from reactive troubleshooting to proactive operational monitoring, identifying critical intersections between public complaints and health violations."
+  },
+  {
+    "objectID": "warehouse-project.html#executive-summary",
+    "href": "warehouse-project.html#executive-summary",
+    "title": "Enterprise Data Warehousing: GCP & dbt ELT Pipeline for NYC School Operations",
+    "section": "",
+    "text": "To provide operational oversight into New York City school conditions, I architected an end-to-end ELT pipeline integrating NYC 311 service requests and Department of Health (DOHMH) cafeteria inspection records. By designing a Kimball-style star schema and deploying automated data ingestion via Google Cloud Platform, I transformed disjointed public datasets into a unified analytical data bus. This infrastructure empowered stakeholders to move from reactive troubleshooting to proactive operational monitoring, identifying critical intersections between public complaints and health violations."
+  },
+  {
+    "objectID": "warehouse-project.html#architecture-technical-stack",
+    "href": "warehouse-project.html#architecture-technical-stack",
+    "title": "Enterprise Data Warehousing: GCP & dbt ELT Pipeline for NYC School Operations",
+    "section": "Architecture & Technical Stack",
+    "text": "Architecture & Technical Stack\n\nInfrastructure: Google Cloud Platform (BigQuery, Cloud Run, Cloud Scheduler)\nData Transformation (ELT): dbt (data build tool), dbt_utils\nLanguages: SQL, Python, YAML\nAnalytics & BI: Data Studio, Socrata API\n\n\nProject Leadership & Execution\nAs the Group Technician, I took full ownership of the systems architecture. Navigating an entirely asynchronous team environment, I operated with high autonomy to establish the technical blueprints, scale the ELT pipeline code, and engineer the final Data Studio dashboards. This structure required strict self-management to ensure all deliverables scaled properly and met rigid project deadlines."
+  },
+  {
+    "objectID": "warehouse-project.html#the-implementation-workflow",
+    "href": "warehouse-project.html#the-implementation-workflow",
+    "title": "Enterprise Data Warehousing: GCP & dbt ELT Pipeline for NYC School Operations",
+    "section": "The Implementation Workflow",
+    "text": "The Implementation Workflow\n\n1. Automated Data Ingestion (Python & Cloud Run)\nI engineered Python-based extraction services deployed on Google Cloud Run to systematically ingest data from the Socrata API. To ensure pipeline resilience, the scripts dynamically managed offset pagination by querying existing BigQuery row counts and included automated schema-validation logic to dynamically update BigQuery tables if the source API introduced new fields.\n\n\n2. Dimensional Modeling & Transformation (dbt)\nOperating as the primary technical architect, I designed the staging, dimensional, and fact models using dbt. A significant challenge involved standardizing disparate string inputs and handling the lack of a universal school identifier across municipal agencies. I implemented rigorous normalization logic to ensure data integrity before it reached the analytical layer.\nCore Transformation Logic: Enforcing Data Integrity The following dbt snippet demonstrates the staging logic used to enforce standardization across high-variability fields, ensuring clean dimensional joins downstream:\n-- Standardizing geography and enforcing data types in dbt\n-- Borough normalization for cleaner dimensional joins\nCASE\n    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\\s+', ' ')) IN ('MANHATTAN', 'NEW YORK COUNTY') THEN 'Manhattan'\n    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\\s+', ' ')) IN ('BRONX', 'THE BRONX') THEN 'Bronx'\n    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\\s+', ' ')) IN ('BROOKLYN', 'KINGS COUNTY') THEN 'Brooklyn'\n    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\\s+', ' ')) IN ('QUEENS', 'QUEEN', 'QUEENS COUNTY') THEN 'Queens'\n    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\\s+', ' ')) IN ('STATEN ISLAND', 'RICHMOND COUNTY') THEN 'Staten Island'\n    WHEN NULLIF(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\\s+', ' '), '') IS NULL THEN NULL\n    ELSE INITCAP(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\\s+', ' '))\nEND AS borough,\n\n-- Zip code cleanup and preservation of leading zeros\nCASE\n    WHEN NULLIF(TRIM(CAST(zipcode AS STRING)), '') IS NULL THEN NULL\n    WHEN REGEXP_CONTAINS(TRIM(CAST(zipcode AS STRING)), r'^\\d{5}$') THEN TRIM(CAST(zipcode AS STRING))\n    WHEN REGEXP_CONTAINS(TRIM(CAST(zipcode AS STRING)), r'^\\d{5}-\\d{4}$') THEN TRIM(CAST(zipcode AS STRING))\n    ELSE NULL\nEND AS zip_code,\n\n\n3. The Analytical Layer & Strategic Insights\nTo close the loop between data infrastructure and strategic operations, I constructed an interactive Data Studio dashboard directly connected to our BigQuery fact tables. During modeling, I identified the lack of a universal school identifier across the municipal datasets; consequently, I strategically architected the dashboard to track shared geographic and temporal dimensions rather than forcing inaccurate causal claims.\nThe finalized dashboard successfully surfaced actionable operational insights, revealing that rodent-related issues constituted the largest share of school-related complaints (59.4%), and highlighting significant variance in resolution times across different boroughs.\n\n\nExplore the interactive Data Studio dashboard. If the preview does not load, open the full report in a new tab:\n\n\nOpen the Data Studio dashboard (new tab)\n\n\nLoad Dashboard\n\n\n\n\n\n\n\nJavaScript is disabled — open the dashboard directly: Open Data Studio report"
+  },
+  {
+    "objectID": "warehouse-project.html#technical-artifacts",
+    "href": "warehouse-project.html#technical-artifacts",
+    "title": "Enterprise Data Warehousing: GCP & dbt ELT Pipeline for NYC School Operations",
+    "section": "Technical Artifacts",
+    "text": "Technical Artifacts\n\nEntity-Relationship Diagram\n\nFinal dimensional model utilized for the BigQuery warehouse, featuring conformed dimensions for cross-mart analysis.\n\n\n\n\n\n\n\nInfrastructure Lineage\n\n\n\nFig: dbt lineage graph mapping source-to-model transformations"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Preston Carey Leslie",
+    "section": "",
+    "text": "I bridge the critical gap between public policy, C-suite strategy, and front-line data integrity. Specializing in systems and workflow translation, I architect human-centric infrastructure that resolves operational friction and scales technical programs without losing sight of the people they serve.\n\n\n\nHonest Advisor: Spearheaded front-line data protection during an 18,000-patient Epic migration at Callen-Lorde. Reported directly to executive leadership to unblock operational friction points and translate clinical realities into strategic architecture.\nSupervisory Command: Directed end-to-end program delivery at Del Monsoon, rapidly assessing and deploying resources to scale from a lean core team to large-scale, cross-functional execution units. Managed both direct contingent personnel and tangential vendor networks to ensure flawless operational continuity.\n\n\n\n\n\nTransit-Accessible Provider Routing (In Development): Architecting a dbt and BigQuery ELT pipeline to integrate NYS Medicaid/Medicare Enrolled Provider data with MTA Static GTFS transit data. The objective is to bridge the “referral gap” by mapping healthcare access against public transit infrastructure. The schema utilizes Slowly Changing Dimensions (SCD Type 2) to track provider mobility, enabling patients to filter accessible care by specific subway/bus lines and ADA-compliant stops.\nPatient Experience Survey Clustering (In Discussion): Partnering with the Patient Experience manager at Callen-Lorde to shape a KMeans-based clustering workflow for open-ended survey comments. The project is being designed to turn unstructured patient feedback into interpretable service themes, with data mining methods planned for later expansion.\n\n\n\n\nMy foundational modeling work spans 3rd Normal Form clinical database design, civic ELT pipelines (Kimball Star Schema), and predictive geospatial analytics.\n\nReview my full technical timeline and completed research in my Resume\nDeep dive into the WHO Warm Hand-Off Project\n\n\n\n\nMS, Quantitative Methods and Modeling\nBaruch College (Zicklin School of Business) | June 2026\nBA, French Modern Language, Minor in Art History\nFrancis Marion University | December 2012"
+  },
+  {
+    "objectID": "index.html#the-bone-setter-for-human-centric-infrastructure",
+    "href": "index.html#the-bone-setter-for-human-centric-infrastructure",
+    "title": "Preston Carey Leslie",
+    "section": "",
+    "text": "I bridge the critical gap between public policy, C-suite strategy, and front-line data integrity. Specializing in systems and workflow translation, I architect human-centric infrastructure that resolves operational friction and scales technical programs without losing sight of the people they serve.\n\n\n\nHonest Advisor: Spearheaded front-line data protection during an 18,000-patient Epic migration at Callen-Lorde. Reported directly to executive leadership to unblock operational friction points and translate clinical realities into strategic architecture.\nSupervisory Command: Directed end-to-end program delivery at Del Monsoon, rapidly assessing and deploying resources to scale from a lean core team to large-scale, cross-functional execution units. Managed both direct contingent personnel and tangential vendor networks to ensure flawless operational continuity.\n\n\n\n\n\nTransit-Accessible Provider Routing (In Development): Architecting a dbt and BigQuery ELT pipeline to integrate NYS Medicaid/Medicare Enrolled Provider data with MTA Static GTFS transit data. The objective is to bridge the “referral gap” by mapping healthcare access against public transit infrastructure. The schema utilizes Slowly Changing Dimensions (SCD Type 2) to track provider mobility, enabling patients to filter accessible care by specific subway/bus lines and ADA-compliant stops.\nPatient Experience Survey Clustering (In Discussion): Partnering with the Patient Experience manager at Callen-Lorde to shape a KMeans-based clustering workflow for open-ended survey comments. The project is being designed to turn unstructured patient feedback into interpretable service themes, with data mining methods planned for later expansion.\n\n\n\n\nMy foundational modeling work spans 3rd Normal Form clinical database design, civic ELT pipelines (Kimball Star Schema), and predictive geospatial analytics.\n\nReview my full technical timeline and completed research in my Resume\nDeep dive into the WHO Warm Hand-Off Project\n\n\n\n\nMS, Quantitative Methods and Modeling\nBaruch College (Zicklin School of Business) | June 2026\nBA, French Modern Language, Minor in Art History\nFrancis Marion University | December 2012"
+  },
+  {
+    "objectID": "PEX-project.html",
+    "href": "PEX-project.html",
+    "title": "PEX Project: Patient Experience Survey Clustering",
+    "section": "",
+    "text": "The PEX Project is a patient experience survey analytics build centered on clustering free-text comments into interpretable service themes. It is being shaped with the Patient Experience manager at Callen-Lorde and is intended to support practical review of recurring issues such as communication, access, wait time, and staff courtesy.\nThe current direction uses KMeans clustering as the core method, with a lightweight text-processing pipeline that can be expanded as the project matures. As the work evolves, I expect to incorporate additional methodologies to improve cluster quality, validation, and interpretation."
+  },
+  {
+    "objectID": "PEX-project.html#executive-summary",
+    "href": "PEX-project.html#executive-summary",
+    "title": "PEX Project: Patient Experience Survey Clustering",
+    "section": "",
+    "text": "The PEX Project is a patient experience survey analytics build centered on clustering free-text comments into interpretable service themes. It is being shaped with the Patient Experience manager at Callen-Lorde and is intended to support practical review of recurring issues such as communication, access, wait time, and staff courtesy.\nThe current direction uses KMeans clustering as the core method, with a lightweight text-processing pipeline that can be expanded as the project matures. As the work evolves, I expect to incorporate additional methodologies to improve cluster quality, validation, and interpretation."
+  },
+  {
+    "objectID": "PEX-project.html#why-it-exists",
+    "href": "PEX-project.html#why-it-exists",
+    "title": "PEX Project: Patient Experience Survey Clustering",
+    "section": "Why It Exists",
+    "text": "Why It Exists\nPatient experience teams often receive a large volume of open-ended comments that are difficult to review consistently by hand. The aim of this project is to create a repeatable workflow that turns that unstructured feedback into a small set of usable themes, so the stakeholder can move faster from comment volume to operational insight."
+  },
+  {
+    "objectID": "PEX-project.html#current-direction",
+    "href": "PEX-project.html#current-direction",
+    "title": "PEX Project: Patient Experience Survey Clustering",
+    "section": "Current Direction",
+    "text": "Current Direction\nThe current technical shape of the work:\n\nconfirm the workbook and text column structure,\nclean and normalize survey text,\nconvert comments into TF-IDF features,\ncluster the comments with KMeans, and\nreview cluster terms and representative comments for theme naming.\n\nThat structure is intentionally simple right now because the project is still in discussion and scoping. It is the right place to begin before adding more advanced methods from data mining work."
+  },
+  {
+    "objectID": "PEX-project.html#working-template",
+    "href": "PEX-project.html#working-template",
+    "title": "PEX Project: Patient Experience Survey Clustering",
+    "section": "Working Template",
+    "text": "Working Template\nThe current notebook template is temporarily unavailable."
+  },
+  {
+    "objectID": "PEX-project.html#likely-method-stack",
+    "href": "PEX-project.html#likely-method-stack",
+    "title": "PEX Project: Patient Experience Survey Clustering",
+    "section": "Likely Method Stack",
+    "text": "Likely Method Stack\n\nPython\npandas\nscikit-learn\nTF-IDF vectorization\nKMeans clustering\nmatplotlib or seaborn for inspection and presentation"
+  },
+  {
+    "objectID": "PEX-project.html#next-iteration",
+    "href": "PEX-project.html#next-iteration",
+    "title": "PEX Project: Patient Experience Survey Clustering",
+    "section": "Next Iteration",
+    "text": "Next Iteration\nAs the project becomes more concrete, I expect to add a fuller notebook page with the actual workbook structure, selected preprocessing choices, cluster validation notes, and the final interpretation layer used with the stakeholder.\nThat later version should make it easier to show how the project moved from exploratory clustering into a decision-support tool for Patient Experience."
+  },
+  {
+    "objectID": "WHO-project.html",
+    "href": "WHO-project.html",
+    "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
+    "section": "",
+    "text": "The WHO (Warm Hand-Off) Project is an active data science and ELT build focused on reducing referral friction for patients who need behavioral health or specialty care beyond an initial clinical visit. Instead of relying on static referral lists, the project is designed to surface viable providers by combining insurance coverage, geospatial context, and transit accessibility in one decision-support workflow."
+  },
+  {
+    "objectID": "WHO-project.html#executive-summary",
+    "href": "WHO-project.html#executive-summary",
+    "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
+    "section": "",
+    "text": "The WHO (Warm Hand-Off) Project is an active data science and ELT build focused on reducing referral friction for patients who need behavioral health or specialty care beyond an initial clinical visit. Instead of relying on static referral lists, the project is designed to surface viable providers by combining insurance coverage, geospatial context, and transit accessibility in one decision-support workflow."
+  },
+  {
+    "objectID": "WHO-project.html#why-it-exists",
+    "href": "WHO-project.html#why-it-exists",
+    "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
+    "section": "Why It Exists",
+    "text": "Why It Exists\nThe project originated from front-line crisis intervention and behavioral health triage, where care teams often need to move quickly from an urgent conversation to an external referral. In practice, that hand-off is frequently slowed down by outdated provider lists, incomplete insurance information, and the difficulty of finding care that is actually reachable by a patient’s transit route.\nThe WHO Project treats that referral gap as a data problem. By organizing provider data and MTA transit data into a usable analytical layer, the build aims to make the next step in care easier to identify and easier to trust."
+  },
+  {
+    "objectID": "WHO-project.html#current-shape-of-the-build",
+    "href": "WHO-project.html#current-shape-of-the-build",
+    "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
+    "section": "Current Shape of the Build",
+    "text": "Current Shape of the Build\nThe project is structured around a dbt and BigQuery workflow, with Python supporting source ingestion and local exploration. The current notebook work emphasizes:\n\nidentifying active NYS Medicaid and Medicare provider coverage,\naligning those records with MTA static GTFS transit data,\npreserving provider history through slowly changing dimensions, and\nfiltering results for accessibility factors such as subway or bus line proximity and ADA-compliant stops.\n\nThis is still an in-progress build, so the notebook is intentionally narrative-first. It documents the problem statement, the source data, the design logic, and the evolving execution log rather than presenting a polished final product."
+  },
+  {
+    "objectID": "WHO-project.html#what-to-inspect-next",
+    "href": "WHO-project.html#what-to-inspect-next",
+    "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
+    "section": "What to Inspect Next",
+    "text": "What to Inspect Next\nIf you want to see the project at the moment of inspection, start with the working notebook:\nWHO Narrative-First Data Science Notebook\nThat notebook is the live working document for the project and includes the project framing, source data notes, core logic, and ongoing development log."
+  },
+  {
+    "objectID": "WHO-project.html#technical-snapshot",
+    "href": "WHO-project.html#technical-snapshot",
+    "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
+    "section": "Technical Snapshot",
+    "text": "Technical Snapshot\n\nPrimary stack: dbt, BigQuery, Python, SQL, YAML\nSource systems: NYS provider listings, provider network data, and MTA static GTFS files\nModeling approach: dimensional modeling with SCD Type 2 tracking for provider mobility\nUse case: referral support for behavioral health and other external care pathways"
+  },
+  {
+    "objectID": "WHO-project.html#portfolio-note",
+    "href": "WHO-project.html#portfolio-note",
+    "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
+    "section": "Portfolio Note",
+    "text": "Portfolio Note\nThis page is the high-level portfolio view. The notebook is where the current implementation details live, so it is the best place to check for the latest scope, assumptions, and project-state notes."
+  },
+  {
+    "objectID": "resume.html",
+    "href": "resume.html",
+    "title": "Resume",
+    "section": "",
+    "text": "Strategic Policy Analyst and Healthcare Implementation Architect with 9+ years of operational leadership and 5 years in high-stakes healthcare systems. I bridge the gap between clinical intent and technical reality through data architecture, system governance, and clear stakeholder translation. My work centers on building reliable infrastructure for complex civic and healthcare environments."
+  },
+  {
+    "objectID": "resume.html#professional-summary",
+    "href": "resume.html#professional-summary",
+    "title": "Resume",
+    "section": "",
+    "text": "Strategic Policy Analyst and Healthcare Implementation Architect with 9+ years of operational leadership and 5 years in high-stakes healthcare systems. I bridge the gap between clinical intent and technical reality through data architecture, system governance, and clear stakeholder translation. My work centers on building reliable infrastructure for complex civic and healthcare environments."
+  },
+  {
+    "objectID": "resume.html#core-competencies",
+    "href": "resume.html#core-competencies",
+    "title": "Resume",
+    "section": "Core Competencies",
+    "text": "Core Competencies\n\nData Architecture & Engineering: dbt, BigQuery, SQL, Python, YAML, and API integration logic.\nSystems Implementation: Enterprise EHR migration (Epic), SaaS configuration, and complex permissions logic.\nDimensional Modeling: Kimball-style star schemas, ELT pipeline design, and relational database architecture (3NF).\nOperational Leadership: Cross-functional team scaling, process stabilization, and contingent workforce management.\nStrategic Governance: Technical documentation, stakeholder translation, UAT leadership, and front-line data protection."
+  },
+  {
+    "objectID": "resume.html#experience",
+    "href": "resume.html#experience",
+    "title": "Resume",
+    "section": "Experience",
+    "text": "Experience\n\nLead Patient Care Associate\nCallen-Lorde | 2021-2026\n\nDirected technical advocacy and data governance during an 18,000-patient Epic EHR migration, reporting directly to executive leadership to unblock operational friction.\nResolved 10-20 high-friction systemic issues daily, serving as a critical escalation point to protect data integrity and ensure equitable care access for trans and nonbinary patients.\nServed as a Union Delegate for 300+ staff members, navigating two contract negotiations and utilizing horizontal peer communication to protect worker scopes.\nDiagnosed critical gaps in crisis triage and behavioral health referral workflows through direct collaboration with front-line stakeholders, identifying the systemic friction that directly informs my independent, post-graduate architectural builds.\n\n\n\nServer, F&B Reservation Agent, and Event Coordinator\nThe Standard Hotels, ABCV | 2017-2021\n\nOrchestrated complex operational data and customer logic across seven NYC-based venues using enterprise CRM systems (OpenTable, SevenRooms, and Tripleseat).\nSafeguarded record accuracy and process continuity in a shared global CRM environment, supporting 300+ daily guest interactions in a high-concurrency setting.\nFacilitated event contracts, procurement, and seamless service coordination, translating high-volume hospitality demands into structured operational workflows.\n\n\n\nSenior Program and Account Lead\nDel Monsoon | 2010-2019\n\nActed as the core operational lead, dynamically scaling execution teams from a two-person nucleus to upwards of 100+ contingent staff and cross-functional subcontractors to deliver high-stakes project mandates.\nDirected end-to-end project delivery, managed event budgets, invoicing, and vendor logistics for complex engagements serving 1,000+ attendees.\nIdentified and converted organic growth opportunities, generating over $60K in new business through relationship management and flawless operational continuity."
+  },
+  {
+    "objectID": "resume.html#selected-projects",
+    "href": "resume.html#selected-projects",
+    "title": "Resume",
+    "section": "Selected Projects",
+    "text": "Selected Projects\n\nTransit-Accessible Provider Routing (The WHO Project)\nArchitecting a dbt and BigQuery ELT pipeline to integrate NYS Medicaid/Medicare Provider data with MTA Static GTFS transit data. Utilizing Slowly Changing Dimensions to track provider mobility and bridge the geospatial “referral gap” for patients over systemic barriers.\n\n\nPatient Experience Survey Clustering\nDesigning a KMeans-based clustering workflow for open-ended patient-experience survey comments, with the goal of converting unstructured feedback into interpretable service themes and actionable operational insight.\n\n\nGeospatial Advocacy & Predictive Modeling\nBuilt a contextual statistical model using Poisson regression to evaluate socioeconomic resource drivers in New York City, unmasking institutional anomalies that distort public healthcare allocation.\n\n\nHealthcare Systems Modeling Research\nConducted a comprehensive 15-year literature review analyzing quantitative modeling methodologies within healthcare ecosystems. Evaluated historical operational bottlenecks, current systemic solutions, and unaddressed gaps in care delivery optimization.\n\n\nStatistical Analysis of Clinical Metrics\nUtilized R to execute simple linear regression modeling, evaluating the effects of specific independent variables on patient glucose levels to demonstrate foundational competency in programmatic data evaluation."
+  },
+  {
+    "objectID": "resume.html#education",
+    "href": "resume.html#education",
+    "title": "Resume",
+    "section": "Education",
+    "text": "Education\n\nMaster of Science, Quantitative Methods and Modeling\nBaruch College, Zicklin School of Business | June 2026\nRelevant coursework includes Data Warehousing and Analytics, Simulation Modeling and Analysis, Modern Regression Analysis, Corporate Finance, Data Visualization, Data Mining for Business Analytics, Principles of Database Management, and Programming for Analytics.\n\n\nBachelor of Arts, French; Minor in Art History\nFrancis Marion University"
+  },
+  {
+    "objectID": "resume.html#certifications",
+    "href": "resume.html#certifications",
+    "title": "Resume",
+    "section": "Certifications",
+    "text": "Certifications\n\nAlteryx Designer Core Certification, Alteryx\nTeaching English as a Second or Foreign Language, Literacy Assistance Center Academy\nDELF A1/A2, Université de Caen Basse-Normandie\nCertified COVID-19 Contact Tracer, Johns Hopkins University"
+  },
+  {
+    "objectID": "resume.html#community-leadership",
+    "href": "resume.html#community-leadership",
+    "title": "Resume",
+    "section": "Community Leadership",
+    "text": "Community Leadership\nCo-Founder and Event Producer, Queer Roots Cinema | 2021-Present"
+  },
+  {
+    "objectID": "resume.html#contact",
+    "href": "resume.html#contact",
+    "title": "Resume",
+    "section": "Contact",
+    "text": "Contact\nEmail: prestoncarey90@gmail.com\nPhone: 843.694.6959\nLinkedIn: linkedin.com/in/preston-leslie/"
+  }
+]

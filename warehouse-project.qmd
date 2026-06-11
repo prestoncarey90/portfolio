@@ -1,0 +1,49 @@
+---
+title: "Complaints & Inspections Project (CIP): GCP & dbt Data Platform for Municipal Scale Infrastructure"
+description: "Transforming raw municipal data into a unified analytical data bus to drive proactive operational monitoring and strategic oversight."
+categories: [Data Architecture, GCP, dbt, SQL, Technical Program Coordination]
+---
+
+## Executive Summary
+To institutionalize a data-driven Complaints & Inspections Project (CIP), I architected an end-to-end ELT pipeline integrating high-volume NYC 311 service requests and Department of Health (DOHMH) cafeteria inspection records. By designing a Kimball-style star schema and deploying automated data ingestion via Google Cloud Platform, I transformed disjointed public datasets into a unified analytical data bus. This infrastructure empowers stakeholders to move from reactive troubleshooting to proactive operational monitoring, identifying critical systemic intersections to drive continuous service improvement
+
+## Architecture & Technical Stack
+* **Infrastructure:** Google Cloud Platform (BigQuery, Cloud Run, Cloud Scheduler)
+* **Data Transformation (ELT):** dbt (data build tool), dbt_utils
+* **Languages:** SQL, Python, YAML
+* **Analytics & BI:** Data Studio, Socrata API
+
+### Project Leadership & Execution
+As the Group Technician, I took full ownership of the systems architecture. Navigating an entirely asynchronous environment, I operated with high autonomy to establish the technical blueprints, scale the ELT pipeline code, and engineer the final Data Studio dashboards. This structure required strict self-management to ensure all deliverables scaled properly and met rigid project deadlines.
+
+## The Implementation Workflow
+
+### 1. Automated Data Ingestion (Python & Cloud Run)
+I engineered Python-based extraction services deployed on Google Cloud Run to systematically ingest data from the Socrata API. To ensure pipeline resilience, the scripts dynamically managed offset pagination by querying existing BigQuery row counts and included automated schema-validation logic to dynamically update BigQuery tables if the source API introduced new fields
+
+### 2. Dimensional Modeling & Transformation (dbt)
+Operating as the primary technical architect, I designed the staging, dimensional, and fact models using dbt. A significant challenge involved standardizing disparate string inputs and handling the lack of a universal tracking identifier across municipal agencies. I implemented rigorous normalization logic to ensure data integrity before it reached the analytical layer.
+
+**Core Transformation Logic: Enforcing Data Integrity**
+The following dbt snippet demonstrates the staging logic used to enforce standardization across high-variability fields, ensuring clean dimensional joins downstream:
+
+```sql
+-- Standardizing geography and enforcing data types in dbt
+-- Borough normalization for cleaner dimensional joins
+CASE
+    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\s+', ' ')) IN ('MANHATTAN', 'NEW YORK COUNTY') THEN 'Manhattan'
+    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\s+', ' ')) IN ('BRONX', 'THE BRONX') THEN 'Bronx'
+    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\s+', ' ')) IN ('BROOKLYN', 'KINGS COUNTY') THEN 'Brooklyn'
+    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\s+', ' ')) IN ('QUEENS', 'QUEEN', 'QUEENS COUNTY') THEN 'Queens'
+    WHEN UPPER(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\s+', ' ')) IN ('STATEN ISLAND', 'RICHMOND COUNTY') THEN 'Staten Island'
+    WHEN NULLIF(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\s+', ' '), '') IS NULL THEN NULL
+    ELSE INITCAP(REGEXP_REPLACE(TRIM(CAST(borough AS STRING)), r'\s+', ' '))
+END AS borough,
+
+-- Zip code cleanup and preservation of leading zeros
+CASE
+    WHEN NULLIF(TRIM(CAST(zipcode AS STRING)), '') IS NULL THEN NULL
+    WHEN REGEXP_CONTAINS(TRIM(CAST(zipcode AS STRING)), r'^\d{5}$') THEN TRIM(CAST(zipcode AS STRING))
+    WHEN REGEXP_CONTAINS(TRIM(CAST(zipcode AS STRING)), r'^\d{5}-\d{4}$') THEN TRIM(CAST(zipcode AS STRING))
+    ELSE NULL
+END AS zip_code,

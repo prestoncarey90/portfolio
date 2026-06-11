@@ -1,0 +1,41 @@
+---
+title: "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing"
+description: "A serverless AWS routing engine connecting active Medicaid/Medicare provider networks with MTA transit infrastructure to eliminate behavioral health referral friction."
+categories: [Healthcare Data, AWS, S3, Lambda, Python, Serverless, Active Development]
+---
+
+## Executive Summary
+
+The WHO (Warm Hand-Off) Project originated from the front lines of crisis intervention and behavioral health (BH) triage. Designed to replace static, manually compiled referral lists, this tool integrates Federal and New York State Medicare/Medicaid provider networks with New York City Mass Transit Authority (MTA) infrastructure. It transforms a high-friction referral process into a dynamic, geospatial routing engine, ensuring patients transitioning to external care can locate active providers based on precise insurance alignment and accessible transit routes.
+
+This tool is strictly scoped as a decision-support application for internal Care Coordinators and Social Workers, specifically targeting workflows like those used by Callen-Lorde's BHART team.
+
+## Architecture Pivot: From Data Warehouse to Serverless Web App
+
+Initial scoping for this project centered on a traditional OLAP Data Warehouse model utilizing BigQuery and dbt. However, after consulting with CIS faculty and evaluating the latency needs of front-line clinical teams, the project scope was successfully pivoted to a serverless OLTP Web Application model. 
+
+This lightweight, serverless infrastructure optimizes for real-time, low-friction application performance (single-row lookups) rather than long-term historical analytics.
+
+### Technical Stack
+* **Infrastructure:** AWS S3, AWS Lambda
+* **Data Bus & Processing:** Python, Pandas
+* **Frontend:** JavaScript
+
+## The Implementation Workflow
+
+### 1. The Python Data Bus
+Instead of relying on a warehouse, a Python-driven data bus handles all API ingestion, geospatial calculations, and data normalization locally. It flattens the relational data into a singular, highly denormalized JSON dataset optimized for fast frontend reading.
+
+### 2. Flat-File Slowly Changing Dimensions (SCDs)
+Historical provider mobility is handled programmatically in the Python bus prior to AWS upload. An `is_active` flag retains historical footprints, preventing data decay from public portals while allowing the frontend map to instantly filter for current clinics. 
+
+### 3. Front-End Deep Linking & Privacy Governance
+A major challenge in behavioral health routing is identifying micro-specialties and intersectional competencies not captured by state APIs. Rather than scraping proprietary directories, which introduces AWS Lambda timeout risks and clinical liability, the application utilizes dynamic UI Smart-Links.
+
+The front-end natively constructs search URLs using available Socrata data and passes these parameters directly into external queries. This gives Care Coordinators a one-click workflow to visually verify therapeutic modalities while maintaining zero backend compute cost. 
+
+## Stakeholder Validation & Next Steps
+
+This architectural approach respects strict data privacy guidelines while actively supporting the community. Upon reaching a functional alpha state, the project has an open invitation for integration testing and distribution through the Manhattan Alternative provider listserv and Discord networks in addition to the Callen-Lorde networks.
+
+**Current Focus:** Transitioning the foundational EDA notebook into the Python Data Bus to merge NYS/CMS API data and calculate geographic bounds.

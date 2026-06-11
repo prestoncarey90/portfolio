@@ -1,0 +1,63 @@
+---
+title: "PEX Project: Patient Experience Survey Clustering"
+description: "A statistical NLP and data mining initiative designed to transform unstructured patient feedback into actionable operational insights."
+categories: [Patient Experience, KMeans, Python, Data Mining, Text Analytics, Active Discussion]
+---
+
+## Executive Summary
+
+The PEX Project is a statistical NLP and data mining initiative designed to transform unstructured patient feedback into actionable operational insights. Developed in collaboration with Patient Experience leadership, this tool utilizes text analytics and KMeans clustering to automatically categorize open-ended survey comments into interpretable service themes, such as communication, access, wait time, and staff courtesy.
+
+### The Problem
+Patient experience teams regularly receive a high volume of free-text comments[cite: 18]. Relying on manual review or basic keyword tallying (e.g., "Ctrl+F" searching) is highly inefficient, difficult to scale, and restricts analysis to preconceived terms. Consequently, valuable operational feedback is often buried in the sheer volume of unstructured data, delaying the team's ability to identify and address recurring systemic issues.
+
+### The Solution
+This project establishes an automated, repeatable workflow that transcends basic text searching. By passing cleaned survey text through a TF-IDF vectorizer and grouping it via KMeans clustering, the tool dynamically discovers recurring themes. This allows stakeholders to rapidly move from reading raw volume to making data-supported operational decisions.
+
+---
+
+## Methodology: Unsupervised Discovery vs. Predefined Categories
+
+This pipeline utilizes *unsupervised machine learning*. The algorithm is not trained on preconceived labels and does not inherently know what "Wait Time" or "Staff Courtesy" means. It strictly groups comments based on mathematical similarities and proximity in the vocabulary used.
+
+* **The Algorithm's Role:** To do the heavy lifting. It objectively sorts thousands of unstructured comments into *k* distinct, mathematically related clusters.
+* **The Human's Role:** To apply business context. The stakeholder reviews the top representative keywords for each generated cluster and assigns the appropriate operational label.
+
+This dynamic approach ensures that themes emerge naturally from the patients' actual words. Furthermore, by using a fixed mathematical seed during test set processing, the cluster boundaries are 100% reproducible every time the script is run by the analytics team.
+
+---
+
+## Core Pipeline Architecture
+
+The technical engine processes the survey workbook through a clean, multi-stage transformation lifecycle:
+
+```python
+import pandas as pd
+import re
+import string
+from nltk.stem import WordNetLemmatizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
+
+# 1. Text Ingestion & Normalization
+def clean_text(text, stop_words):
+    lem = WordNetLemmatizer()
+    text = str(text).lower()
+    text = text.translate(str.maketrans(string.punctuation, ' ' * len(string.punctuation)))
+    tokens = re.split(r'\W+', text)
+    tokens = [lem.lemmatize(token) for token in tokens if token.isalpha() and token not in stop_words]
+    return ' '.join(tokens)
+
+# 2. Feature Extraction via TF-IDF
+tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=2)
+tfidf_matrix = tfidf_vectorizer.fit_transform(df["cleaned_text"])
+
+# 3. Model Calibration (KMeans)
+k = 5
+km = KMeans(n_clusters=k, random_state=42, n_init=10)
+km.fit(tfidf_matrix)
+df["cluster"] = km.labels_
+
+# 4. Result Serialization & Export
+output_path = r"patient_experience_clustered_results.xlsx"
+df.to_excel(output_path, index=False)
