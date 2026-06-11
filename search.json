@@ -74,49 +74,35 @@
     "href": "WHO-project.html",
     "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
     "section": "",
-    "text": "The WHO (Warm Hand-Off) Project is an active data science and ELT build focused on reducing referral friction for patients who need behavioral health or specialty care beyond an initial clinical visit. Instead of relying on static referral lists, the project is designed to surface viable providers by combining insurance coverage, geospatial context, and transit accessibility in one decision-support workflow."
+    "text": "The WHO (Warm Hand-Off) Project originated from the front lines of crisis intervention and behavioral health (BH) triage. Designed to replace static, manually compiled referral lists, this tool integrates Federal and New York State Medicare/Medicaid provider networks with New York City Mass Transit Authority (MTA) infrastructure. It transforms a high-friction referral process into a dynamic, geospatial routing engine, ensuring patients transitioning to external care can locate active providers based on precise insurance alignment and accessible transit routes.\nThis tool is strictly scoped as a decision-support application for internal Care Coordinators and Social Workers, specifically targeting workflows like those used by Callen-Lorde’s BHART team."
   },
   {
     "objectID": "WHO-project.html#executive-summary",
     "href": "WHO-project.html#executive-summary",
     "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
     "section": "",
-    "text": "The WHO (Warm Hand-Off) Project is an active data science and ELT build focused on reducing referral friction for patients who need behavioral health or specialty care beyond an initial clinical visit. Instead of relying on static referral lists, the project is designed to surface viable providers by combining insurance coverage, geospatial context, and transit accessibility in one decision-support workflow."
+    "text": "The WHO (Warm Hand-Off) Project originated from the front lines of crisis intervention and behavioral health (BH) triage. Designed to replace static, manually compiled referral lists, this tool integrates Federal and New York State Medicare/Medicaid provider networks with New York City Mass Transit Authority (MTA) infrastructure. It transforms a high-friction referral process into a dynamic, geospatial routing engine, ensuring patients transitioning to external care can locate active providers based on precise insurance alignment and accessible transit routes.\nThis tool is strictly scoped as a decision-support application for internal Care Coordinators and Social Workers, specifically targeting workflows like those used by Callen-Lorde’s BHART team."
   },
   {
-    "objectID": "WHO-project.html#why-it-exists",
-    "href": "WHO-project.html#why-it-exists",
+    "objectID": "WHO-project.html#architecture-pivot-from-data-warehouse-to-serverless-web-app",
+    "href": "WHO-project.html#architecture-pivot-from-data-warehouse-to-serverless-web-app",
     "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
-    "section": "Why It Exists",
-    "text": "Why It Exists\nThe project originated from front-line crisis intervention and behavioral health triage, where care teams often need to move quickly from an urgent conversation to an external referral. In practice, that hand-off is frequently slowed down by outdated provider lists, incomplete insurance information, and the difficulty of finding care that is actually reachable by a patient’s transit route.\nThe WHO Project treats that referral gap as a data problem. By organizing provider data and MTA transit data into a usable analytical layer, the build aims to make the next step in care easier to identify and easier to trust."
+    "section": "Architecture Pivot: From Data Warehouse to Serverless Web App",
+    "text": "Architecture Pivot: From Data Warehouse to Serverless Web App\nInitial scoping for this project centered on a traditional OLAP Data Warehouse model utilizing BigQuery and dbt. However, after consulting with CIS faculty and evaluating the latency needs of front-line clinical teams, the project scope was successfully pivoted to a serverless OLTP Web Application model.\nThis lightweight, serverless infrastructure optimizes for real-time, low-friction application performance (single-row lookups) rather than long-term historical analytics.\n\nTechnical Stack\n\nInfrastructure: AWS S3, AWS Lambda\nData Bus & Processing: Python, Pandas\nFrontend: JavaScript"
   },
   {
-    "objectID": "WHO-project.html#current-shape-of-the-build",
-    "href": "WHO-project.html#current-shape-of-the-build",
+    "objectID": "WHO-project.html#the-implementation-workflow",
+    "href": "WHO-project.html#the-implementation-workflow",
     "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
-    "section": "Current Shape of the Build",
-    "text": "Current Shape of the Build\nThe project is structured around a dbt and BigQuery workflow, with Python supporting source ingestion and local exploration. The current notebook work emphasizes:\n\nidentifying active NYS Medicaid and Medicare provider coverage,\naligning those records with MTA static GTFS transit data,\npreserving provider history through slowly changing dimensions, and\nfiltering results for accessibility factors such as subway or bus line proximity and ADA-compliant stops.\n\nThis is still an in-progress build, so the notebook is intentionally narrative-first. It documents the problem statement, the source data, the design logic, and the evolving execution log rather than presenting a polished final product."
+    "section": "The Implementation Workflow",
+    "text": "The Implementation Workflow\n\n1. The Python Data Bus\nInstead of relying on a warehouse, a Python-driven data bus handles all API ingestion, geospatial calculations, and data normalization locally. It flattens the relational data into a singular, highly denormalized JSON dataset optimized for fast frontend reading.\n\n\n2. Flat-File Slowly Changing Dimensions (SCDs)\nHistorical provider mobility is handled programmatically in the Python bus prior to AWS upload. An is_active flag retains historical footprints, preventing data decay from public portals while allowing the frontend map to instantly filter for current clinics.\n\n\n3. Front-End Deep Linking & Privacy Governance\nA major challenge in behavioral health routing is identifying micro-specialties and intersectional competencies not captured by state APIs. Rather than scraping proprietary directories, which introduces AWS Lambda timeout risks and clinical liability, the application utilizes dynamic UI Smart-Links.\nThe front-end natively constructs search URLs using available Socrata data and passes these parameters directly into external queries. This gives Care Coordinators a one-click workflow to visually verify therapeutic modalities while maintaining zero backend compute cost."
   },
   {
-    "objectID": "WHO-project.html#what-to-inspect-next",
-    "href": "WHO-project.html#what-to-inspect-next",
+    "objectID": "WHO-project.html#stakeholder-validation-next-steps",
+    "href": "WHO-project.html#stakeholder-validation-next-steps",
     "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
-    "section": "What to Inspect Next",
-    "text": "What to Inspect Next\nIf you want to see the project at the moment of inspection, start with the working notebook:\nWHO Narrative-First Data Science Notebook\nThat notebook is the live working document for the project and includes the project framing, source data notes, core logic, and ongoing development log."
-  },
-  {
-    "objectID": "WHO-project.html#technical-snapshot",
-    "href": "WHO-project.html#technical-snapshot",
-    "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
-    "section": "Technical Snapshot",
-    "text": "Technical Snapshot\n\nPrimary stack: dbt, BigQuery, Python, SQL, YAML\nSource systems: NYS provider listings, provider network data, and MTA static GTFS files\nModeling approach: dimensional modeling with SCD Type 2 tracking for provider mobility\nUse case: referral support for behavioral health and other external care pathways"
-  },
-  {
-    "objectID": "WHO-project.html#portfolio-note",
-    "href": "WHO-project.html#portfolio-note",
-    "title": "WHO Project: Warm Hand-Off Transit-Accessible Provider Routing",
-    "section": "Portfolio Note",
-    "text": "Portfolio Note\nThis page is the high-level portfolio view. The notebook is where the current implementation details live, so it is the best place to check for the latest scope, assumptions, and project-state notes."
+    "section": "Stakeholder Validation & Next Steps",
+    "text": "Stakeholder Validation & Next Steps\nThis architectural approach respects strict data privacy guidelines while actively supporting the community. Upon reaching a functional alpha state, the project has an open invitation for integration testing and distribution through the Manhattan Alternative provider listserv and Discord networks.\n\nCurrent Focus: Transitioning the foundational EDA notebook into the Python Data Bus to merge NYS/CMS API data and calculate geographic bounds."
   },
   {
     "objectID": "resume.html",
