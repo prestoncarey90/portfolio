@@ -10,11 +10,7 @@ Strategic Policy Analyst and Healthcare Implementation Architect with 9+ years o
 ## Core Competencies
 
 - Data Architecture & Engineering: dbt, BigQuery, SQL, Python, YAML, and API integration logic.
-<<<<<<< HEAD
 - Systems & Software Auditing: Enterprise EHR migration advocacy (Epic), operational workflow analysis, and access provisioning/permissions auditing.
-=======
-- Systems Implementation: Enterprise EHR migration (Epic), SaaS configuration, and complex permissions logic.
->>>>>>> 0638db9c6caafb7a2571bf3bb2e78789d845923f
 - Dimensional Modeling: Kimball-style star schemas, ELT pipeline design, and relational database architecture (3NF).
 - Operational Leadership: Cross-functional team scaling, process stabilization, and contingent workforce management.
 - Strategic Governance: Technical documentation, stakeholder translation, UAT leadership, and front-line data protection.
@@ -24,21 +20,13 @@ Strategic Policy Analyst and Healthcare Implementation Architect with 9+ years o
 ### Lead Patient Care Associate
 Callen-Lorde | 2021-2026
 
-<<<<<<< HEAD
 - Directed technical advocacy and operational data governance audits during an 18,000-patient Epic EHR migration, reporting directly to executive leadership to unblock operational friction.
-=======
-- Directed technical advocacy and data governance during an 18,000-patient Epic EHR migration, reporting directly to executive leadership to unblock operational friction.
->>>>>>> 0638db9c6caafb7a2571bf3bb2e78789d845923f
 - Resolved 10-20 high-friction systemic issues daily, serving as a critical escalation point to protect data integrity and ensure equitable care access for trans and nonbinary patients.
 - Served as a Union Delegate for 300+ staff members, navigating two contract negotiations and utilizing horizontal peer communication to protect worker scopes.
 - Diagnosed critical gaps in crisis triage and behavioral health referral workflows through direct collaboration with front-line stakeholders, identifying the systemic friction that directly informs my independent, post-graduate architectural builds.
 
 ### Server, F&B Reservation Agent, and Event Coordinator
-<<<<<<< HEAD
 The Standard Hotels, ABCV | 2015-2021
-=======
-The Standard Hotels, ABCV | 2017-2021
->>>>>>> 0638db9c6caafb7a2571bf3bb2e78789d845923f
 
 - Orchestrated complex operational data and customer logic across seven NYC-based venues using enterprise CRM systems (OpenTable, SevenRooms, and Tripleseat).
 - Safeguarded record accuracy and process continuity in a shared global CRM environment, supporting 300+ daily guest interactions in a high-concurrency setting.
