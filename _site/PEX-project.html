@@ -6,15 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<<<<<<< HEAD
 <meta name="description" content="A statistical NLP and data mining initiative designed to transform unstructured patient feedback into actionable operational insights.">
 
 <title>PEX Project: Patient Experience Survey Clustering – Preston Carey Leslie</title>
-=======
-<meta name="description" content="A portfolio overview of the Patient Experience clustering project, centered on KMeans and data mining methods.">
-
-<title>PEX Project: Patient Experience Survey Clustering – Preston Carey Leslie II</title>
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -89,11 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-<<<<<<< HEAD
     <span class="navbar-title">Preston Carey Leslie</span>
-=======
-    <span class="navbar-title">Preston Carey Leslie II</span>
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -127,11 +117,11 @@ ul.task-list li input[type="checkbox"] {
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-completed-projects">    
         <li>
     <a class="dropdown-item" href="./warehouse-project.html">
-<<<<<<< HEAD
  <span class="dropdown-text">CIP Project</span></a>
-=======
- <span class="dropdown-text">ELT Architecture</span></a>
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./mining-project.html">
+ <span class="dropdown-text">SDOH Project</span></a>
   </li>  
     </ul>
   </li>
@@ -156,7 +146,6 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-<<<<<<< HEAD
   <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a>
   <ul class="collapse">
   <li><a href="#the-problem" id="toc-the-problem" class="nav-link" data-scroll-target="#the-problem">The Problem</a></li>
@@ -168,14 +157,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#feature-extraction-via-tf-idf" id="toc-feature-extraction-via-tf-idf" class="nav-link" data-scroll-target="#feature-extraction-via-tf-idf">2. Feature Extraction via TF-IDF</a></li>
   <li><a href="#model-calibration-kmeans" id="toc-model-calibration-kmeans" class="nav-link" data-scroll-target="#model-calibration-kmeans">3. Model Calibration (KMeans)</a></li>
   <li><a href="#result-serialization-export" id="toc-result-serialization-export" class="nav-link" data-scroll-target="#result-serialization-export">4. Result Serialization &amp; Export</a></li>
-=======
-  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a></li>
-  <li><a href="#why-it-exists" id="toc-why-it-exists" class="nav-link" data-scroll-target="#why-it-exists">Why It Exists</a></li>
-  <li><a href="#current-direction" id="toc-current-direction" class="nav-link" data-scroll-target="#current-direction">Current Direction</a></li>
-  <li><a href="#working-template" id="toc-working-template" class="nav-link" data-scroll-target="#working-template">Working Template</a></li>
-  <li><a href="#likely-method-stack" id="toc-likely-method-stack" class="nav-link" data-scroll-target="#likely-method-stack">Likely Method Stack</a></li>
-  <li><a href="#next-iteration" id="toc-next-iteration" class="nav-link" data-scroll-target="#next-iteration">Next Iteration</a></li>
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
   </ul>
 </nav>
     </div>
@@ -197,11 +178,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-<<<<<<< HEAD
     A statistical NLP and data mining initiative designed to transform unstructured patient feedback into actionable operational insights.
-=======
-    A portfolio overview of the Patient Experience clustering project, centered on KMeans and data mining methods.
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
   </div>
 </div>
 
@@ -220,7 +197,6 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="executive-summary" class="level2">
 <h2 class="anchored" data-anchor-id="executive-summary">Executive Summary</h2>
-<<<<<<< HEAD
 <p>The PEX Project is a statistical NLP and data mining initiative designed to transform unstructured patient feedback into actionable operational insights. Developed in collaboration with Patient Experience leadership, this tool utilizes text analytics and KMeans clustering to automatically categorize open-ended survey comments into interpretable service themes, such as communication, access, wait time, and staff courtesy.</p>
 <section id="the-problem" class="level3">
 <h3 class="anchored" data-anchor-id="the-problem">The Problem</h3>
@@ -262,46 +238,6 @@ ul.task-list li input[type="checkbox"] {
 <section id="result-serialization-export" class="level1">
 <h1>4. Result Serialization &amp; Export</h1>
 <p>output_path = r”patient_experience_clustered_results.xlsx” df.to_excel(output_path, index=False)</p>
-=======
-<p>The PEX Project is a patient experience survey analytics build centered on clustering free-text comments into interpretable service themes. It is being shaped with the Patient Experience manager at Callen-Lorde and is intended to support practical review of recurring issues such as communication, access, wait time, and staff courtesy.</p>
-<p>The current direction uses KMeans clustering as the core method, with a lightweight text-processing pipeline that can be expanded as the project matures. As the work evolves, I expect to incorporate additional methodologies to improve cluster quality, validation, and interpretation.</p>
-</section>
-<section id="why-it-exists" class="level2">
-<h2 class="anchored" data-anchor-id="why-it-exists">Why It Exists</h2>
-<p>Patient experience teams often receive a large volume of open-ended comments that are difficult to review consistently by hand. The aim of this project is to create a repeatable workflow that turns that unstructured feedback into a small set of usable themes, so the stakeholder can move faster from comment volume to operational insight.</p>
-</section>
-<section id="current-direction" class="level2">
-<h2 class="anchored" data-anchor-id="current-direction">Current Direction</h2>
-<p>The current technical shape of the work:</p>
-<ul>
-<li>confirm the workbook and text column structure,</li>
-<li>clean and normalize survey text,</li>
-<li>convert comments into TF-IDF features,</li>
-<li>cluster the comments with KMeans, and</li>
-<li>review cluster terms and representative comments for theme naming.</li>
-</ul>
-<p>That structure is intentionally simple right now because the project is still in discussion and scoping. It is the right place to begin before adding more advanced methods from data mining work.</p>
-</section>
-<section id="working-template" class="level2">
-<h2 class="anchored" data-anchor-id="working-template">Working Template</h2>
-<p>The current notebook template is temporarily unavailable.</p>
-</section>
-<section id="likely-method-stack" class="level2">
-<h2 class="anchored" data-anchor-id="likely-method-stack">Likely Method Stack</h2>
-<ul>
-<li>Python</li>
-<li>pandas</li>
-<li>scikit-learn</li>
-<li>TF-IDF vectorization</li>
-<li>KMeans clustering</li>
-<li>matplotlib or seaborn for inspection and presentation</li>
-</ul>
-</section>
-<section id="next-iteration" class="level2">
-<h2 class="anchored" data-anchor-id="next-iteration">Next Iteration</h2>
-<p>As the project becomes more concrete, I expect to add a fuller notebook page with the actual workbook structure, selected preprocessing choices, cluster validation notes, and the final interpretation layer used with the stakeholder.</p>
-<p>That later version should make it easier to show how the project moved from exploratory clustering into a decision-support tool for Patient Experience.</p>
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
 
 
 </section>
@@ -380,11 +316,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-<<<<<<< HEAD
-        var filterRegex = new RegExp("https:\/\/prestoncarey90\.github\.io\/portfolio\/");
-=======
         var filterRegex = new RegExp('/' + window.location.host + '/');
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
