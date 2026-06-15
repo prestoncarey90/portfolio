@@ -44,6 +44,8 @@ My foundational modeling work spans 3rd Normal Form clinical database design, ci
 
 * [Deep dive into the CIP (Continuous Improvement Process) Project](warehouse-project.qmd)
 
+* [Deep dive into the SDOH (Social Determinants of Health) Analytics Engine](mining-project.qmd)
+
 ### Education
 
 **MS, Quantitative Methods and Modeling**  

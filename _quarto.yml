@@ -22,6 +22,8 @@ website:
         menu:
           - href: warehouse-project.qmd
             text: CIP Project
+          - href: mining-project.qmd
+            text: SDOH Project
       - href: resume.qmd
         text: Resume
         icon: file-text

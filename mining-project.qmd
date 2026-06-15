@@ -1,0 +1,92 @@
+---
+title: "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine"
+description: "Deploying Poisson regression and unsupervised K-Means clustering to decouple neighborhood poverty from systemic HIV public health disparities across NYC ZIP codes."
+categories: [Epidemiological Data, Python, Poisson Regression, Unsupervised Machine Learning, Operations Research]
+---
+
+## Executive Summary
+Traditional public health models frequently default to using generic neighborhood poverty rates to explain health disparities, an approach that often hides more complex structural drivers. To test this limitation, our team architected a multi-layer analytical engine evaluating NYC HIV public health datasets (2019–2023) alongside localized Social Determinants of Health (SDOH) matrices across conformed ZIP code zones. 
+
+By implementing an offset Poisson regression model and unsupervised K-Means clustering, the engine successfully unmasked critical institutional anomalies—most notably the structural distortion caused by localized correctional populations—and demonstrated that wealth inequality (the Gini coefficient) serves as a far more potent predictor of localized health burden than income or poverty markers alone.
+
+## Technical Stack & Library Footprint
+* **Core Processing Engine:** Python (Pandas, NumPy)
+* **Statistical Modeling:** Statsmodels (Poisson GLM with log-link functions)
+* **Machine Learning & Clustering:** Scikit-Learn (KMeans, StandardScaler, AgglomerativeClustering)
+* **Exploratory Analytics & Diagnostics:** SciPy (Pearson/Spearman correlation & p-value mapping), Matplotlib, Seaborn
+
+---
+
+## Technical Leadership & Team Dynamics
+I served as the **Technical Lead** for this initiative, taking direct ownership of the data preprocessing pipelines, exploratory geographic diagnostics, and the engineering of the primary Poisson predictive model. 
+
+Because Poisson regression was outside the standard boundaries of our coursework, I independently researched and piloted the methodology, leveraging my baseline exposure to Poisson arrival behaviors in Queue Theory alongside standard linear/multiple regression frameworks to steer the engine's technical architecture.
+
+This project was executed within a highly aligned, collaborative team environment:
+* **Organic Cross-Functional Execution:** Rather than splitting into isolated silos where individuals sat on the sidelines, our entire group actively contributed across all project phases.
+* **Structured Communications Infrastructure:** Led by a dedicated Communications Partner, the team maintained momentum via a highly disciplined rhythm of weekly and bi-weekly virtual check-ins.
+* **Documentation & Synthesis Governance:** A designated Writing Lead coordinated the collection, structuring, and compilation of all technical notes, code outputs, and empirical findings into our final conformed executive brief.
+
+---
+
+## The Implementation Lifecycle
+
+### Phase 1: High-Variability Preprocessing & Data Cleaning
+The source data arrived as nine distinct, disconnected worksheets featuring intensive suppression footprints designed to protect patient privacy. To build a clean, unified dataset across 141 analytical zones, we executed three structural corrections:
+
+```python
+import pandas as pd
+import numpy as np
+
+# 1. Isolating privacy-suppressed negative flags to protect statistical stability
+def clean_suppression_flags(df, numeric_cols):
+    for col in numeric_cols:
+        # Transforming institutional data-suppression codes (-1, -5, -8, -9) into NaN
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+        df[col] = df[col].apply(lambda x: np.nan if x < 0 else x)
+    return df
+
+* **Standardization Alignment:** Conformed all disparate ZIP code schemas across datasets into a single categorical indexing data type[cite: 19].
+* **Multimodal Rescaling:** Deployed `StandardScaler` to normalize continuous variables measured across completely distinct units—such as median household income in raw dollars, poverty rates as percentages, and count variables—ensuring distance calculations were mathematically balanced during the machine learning phase[cite: 19].
+
+---
+
+## Phase 2: Predictive Engine & The Rikers Island Unmasking
+Because HIV diagnosis records are count-based outcomes rather than continuous, un-bounded variables, ordinary multiple linear regression (MLR) models can output negative predictions and distort variance indicators. We deployed a Poisson generalized linear model (GLM) featuring a log-link function.
+
+To properly scale the counts relative to varying neighborhood boundaries, we integrated 2020 Census population records directly into the model as an offset variable, effectively treating population scale as a fixed constant while modeling the underlying case distribution.
+
+### Engineering for Causal Anomalies (The Rikers Hack)
+Initial diagnostic passes revealed an massive outlier footprint at ZIP code 11370—the geographical anchor for the Rikers Island correctional facility. Because an institutional population displays fundamentally different public health patterns than standard residential zones, this single data point introduced severe skewing across our multivariable correlation matrices.
+
+To resolve this, we engineered an explicit institutional dummy variable directly into our final statistical sweep:
+
+* **Deviance Optimization:** Incorporating the institutional control variable caused the model's baseline Deviance metric to drop from a highly unstable 27,695 down to an incredibly tight 3,644 in the sensitivity iteration.
+* **Model Validation:** The final sweep achieved a statistically robust McFadden's Pseudo R-squared of 0.3922, confirming an elite fit for real-world categorical count modeling.
+* **The Gini Indicator:** The finalized model proved that the Gini coefficient (income inequality) maintained a powerful, independent positive relationship with elevated case counts, even when poverty and absolute household income metrics were held fully constant.
+
+---
+
+## Phase 3: Unsupervised Machine Learning Profile Clustering
+To classify the 141 conformed ZIP codes based on overlapping layers of health metrics and socioeconomic context, we deployed an unsupervised K-Means clustering sequence, processing 14 continuous input features simultaneously.
+
+### Calibration & Cross-Method Validation
+We tested cluster counts ranging from $k = 2$ through $k = 10$, evaluating them using a combined Elbow and Silhouette framework. While a simple $k=2$ sequence offered the cleanest raw mathematical partition, we chose a 4-cluster solution to provide meaningful operational segments for real-world public health resource allocation:
+
+| Cluster Target Profile | Zones | Avg HIV Rate | Median Income | Poverty Rate |
+| :--- | :--- | :--- | :--- | :--- |
+| **Cluster 0:** Moderate-Burden Base | 79 ZIPs | 922 | \$79,000 | 16% |
+| **Cluster 1:** High-Burden / High-Income | 7 ZIPs | 3,409 | \$124,000 | 12% |
+| **Cluster 2:** Extreme Structural Disparity | 29 ZIPs | 2,755 | \$49,000 | 29% |
+| **Cluster 3:** Low-Burden / High-Asset | 26 ZIPs | 1,060 | \$139,000 | 10% |
+
+### Stability Verification
+To prove the resulting boundaries were structural assets rather than algorithm-specific artifacts, we ran an identical validation layer using Hierarchical Agglomerative Clustering with Ward Linkage, which acts to minimize within-cluster variance during merge steps.
+
+Cross-tabulation modeling revealed near-identical cluster assignments between K-Means (Silhouette Score: 0.31) and Hierarchical Ward linkage (Silhouette Score: 0.32), establishing complete mathematical stability before passing the data to our writing lead for reporting.
+
+---
+
+## Project Documentation & Artifacts
+* **Exploratory Jupyter Source Engine:** [Review Open-Source Google Colab Notebook](https://colab.research.google.com/drive/1SHcu3JOyyU7wl18e8Zq-ZUdWbAQ01E0y?usp=sharing)
+* **Executive Research Brief:** [Read the Final Comprehensive Project Report](https://docs.google.com/document/d/1KMfuRoCCQVhOgNWZzCOE5le0C_plvHJM/edit?usp=sharing&ouid=102604893937505143516&rtpof=true&sd=true)
