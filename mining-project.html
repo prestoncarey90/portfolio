@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Deploying Poisson regression and unsupervised K-Means clustering to decouple neighborhood poverty from systemic HIV public health disparities across NYC ZIP codes.">
 
-<title>Preston Carey Leslie</title>
+<title>SDOH Project: Epidemiological Social Determinants of Health Analytics Engine – Preston Carey Leslie</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,6 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
@@ -70,6 +72,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -90,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -115,7 +146,11 @@ ul.task-list li input[type="checkbox"] {
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-completed-projects">    
         <li>
     <a class="dropdown-item" href="./warehouse-project.html">
- <span class="dropdown-text">ELT Architecture</span></a>
+ <span class="dropdown-text">CIP Project</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./mining-project.html">
+ <span class="dropdown-text">SDOH Project</span></a>
   </li>  
     </ul>
   </li>
@@ -132,78 +167,208 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a></li>
+  <li><a href="#technical-stack-library-footprint" id="toc-technical-stack-library-footprint" class="nav-link" data-scroll-target="#technical-stack-library-footprint">Technical Stack &amp; Library Footprint</a></li>
+  <li><a href="#technical-leadership-team-dynamics" id="toc-technical-leadership-team-dynamics" class="nav-link" data-scroll-target="#technical-leadership-team-dynamics">Technical Leadership &amp; Team Dynamics</a></li>
+  <li><a href="#the-implementation-lifecycle" id="toc-the-implementation-lifecycle" class="nav-link" data-scroll-target="#the-implementation-lifecycle">The Implementation Lifecycle</a>
+  <ul class="collapse">
+  <li><a href="#phase-1-high-variability-preprocessing-data-cleaning" id="toc-phase-1-high-variability-preprocessing-data-cleaning" class="nav-link" data-scroll-target="#phase-1-high-variability-preprocessing-data-cleaning">Phase 1: High-Variability Preprocessing &amp; Data Cleaning</a></li>
+  </ul></li>
+  <li><a href="#isolating-privacy-suppressed-negative-flags-to-protect-statistical-stability" id="toc-isolating-privacy-suppressed-negative-flags-to-protect-statistical-stability" class="nav-link" data-scroll-target="#isolating-privacy-suppressed-negative-flags-to-protect-statistical-stability">1. Isolating privacy-suppressed negative flags to protect statistical stability</a>
+  <ul class="collapse">
+  <li><a href="#phase-2-predictive-engine-the-rikers-island-unmasking" id="toc-phase-2-predictive-engine-the-rikers-island-unmasking" class="nav-link" data-scroll-target="#phase-2-predictive-engine-the-rikers-island-unmasking">Phase 2: Predictive Engine &amp; The Rikers Island Unmasking</a>
+  <ul class="collapse">
+  <li><a href="#engineering-for-causal-anomalies-the-rikers-hack" id="toc-engineering-for-causal-anomalies-the-rikers-hack" class="nav-link" data-scroll-target="#engineering-for-causal-anomalies-the-rikers-hack">Engineering for Causal Anomalies (The Rikers Hack)</a></li>
+  </ul></li>
+  <li><a href="#phase-3-unsupervised-machine-learning-profile-clustering" id="toc-phase-3-unsupervised-machine-learning-profile-clustering" class="nav-link" data-scroll-target="#phase-3-unsupervised-machine-learning-profile-clustering">Phase 3: Unsupervised Machine Learning Profile Clustering</a>
+  <ul class="collapse">
+  <li><a href="#calibration-cross-method-validation" id="toc-calibration-cross-method-validation" class="nav-link" data-scroll-target="#calibration-cross-method-validation">Calibration &amp; Cross-Method Validation</a></li>
+  <li><a href="#stability-verification" id="toc-stability-verification" class="nav-link" data-scroll-target="#stability-verification">Stability Verification</a></li>
+  </ul></li>
+  <li><a href="#project-documentation-artifacts" id="toc-project-documentation-artifacts" class="nav-link" data-scroll-target="#project-documentation-artifacts">Project Documentation &amp; Artifacts</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<div class="quarto-about-trestles column-page">
-  <div class="about-entity">
-    <img src="portrait.png" class="about-image
-  rounded " style="width: 20em;">
+<main class="content" id="quarto-document-content">
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<p class="subtitle lead">Implementation Architect | Strategic Advisor | Technical Program Coordinator</p>
-</div>
-<div class="quarto-title-meta column-page">
+<h1 class="title">SDOH Project: Epidemiological Social Determinants of Health Analytics Engine</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Epidemiological Data</div>
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">Poisson Regression</div>
+    <div class="quarto-category">Unsupervised Machine Learning</div>
+    <div class="quarto-category">Operations Research</div>
   </div>
+  </div>
+
+<div>
+  <div class="description">
+    Deploying Poisson regression and unsupervised K-Means clustering to decouple neighborhood poverty from systemic HIV public health disparities across NYC ZIP codes.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
 </header>
-    <div class="about-links">
-  <a href="https://www.linkedin.com/in/preston-leslie/" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://github.com/prestoncarey90" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-  <a href="mailto:prestoncarey90@gmail.com" class="about-link" rel="" target="">
-    <i class="bi bi-envelope"></i>
-     <span class="about-link-text">Email</span>
-  </a>
-</div>
-  </div>
-  <div class="about-contents"><main class="content column-page" id="quarto-document-content">
-<section id="the-bone-setter-for-human-centric-infrastructure" class="level2">
-<h2 data-anchor-id="the-bone-setter-for-human-centric-infrastructure">The “Bone-Setter” for Human-Centric Infrastructure</h2>
-<p>I bridge the critical gap between public policy, C-suite strategy, and front-line data integrity. Specializing in systems and workflow translation, I architect human-centric infrastructure that resolves operational friction and scales technical programs without losing sight of the people they serve.</p>
-<section id="strategic-leadership" class="level3">
-<h3 data-anchor-id="strategic-leadership">Strategic Leadership</h3>
-<ul>
-<li><strong>Honest Advisor:</strong> Spearheaded front-line data protection during an 18,000-patient Epic migration at Callen-Lorde. Reported directly to executive leadership to unblock operational friction points and translate clinical realities into strategic architecture.</li>
-<li><strong>Supervisory Command:</strong> Directed end-to-end program delivery at Del Monsoon, rapidly assessing and deploying resources to scale from a lean core team to large-scale, cross-functional execution units. Managed both direct contingent personnel and tangential vendor networks to ensure flawless operational continuity.</li>
-</ul>
+
+
+<section id="executive-summary" class="level2">
+<h2 class="anchored" data-anchor-id="executive-summary">Executive Summary</h2>
+<p>Traditional public health models frequently default to using generic neighborhood poverty rates to explain health disparities, an approach that often hides more complex structural drivers. To test this limitation, our team architected a multi-layer analytical engine evaluating NYC HIV public health datasets (2019–2023) alongside localized Social Determinants of Health (SDOH) matrices across conformed ZIP code zones.</p>
+<p>By implementing an offset Poisson regression model and unsupervised K-Means clustering, the engine successfully unmasked critical institutional anomalies—most notably the structural distortion caused by localized correctional populations—and demonstrated that wealth inequality (the Gini coefficient) serves as a far more potent predictor of localized health burden than income or poverty markers alone.</p>
 </section>
-<section id="active-architecture-development" class="level3">
-<h3 data-anchor-id="active-architecture-development">Active Architecture &amp; Development</h3>
+<section id="technical-stack-library-footprint" class="level2">
+<h2 class="anchored" data-anchor-id="technical-stack-library-footprint">Technical Stack &amp; Library Footprint</h2>
 <ul>
-<li><p><strong>Transit-Accessible Provider Routing (In Development):</strong> Architecting a dbt and BigQuery ELT pipeline to integrate NYS Medicaid/Medicare Enrolled Provider data with MTA Static GTFS transit data. The objective is to bridge the “referral gap” by mapping healthcare access against public transit infrastructure. The schema utilizes Slowly Changing Dimensions (SCD Type 2) to track provider mobility, enabling patients to filter accessible care by specific subway/bus lines and ADA-compliant stops.</p></li>
-<li><p><strong>Patient Experience Survey Clustering (In Discussion):</strong> Partnering with the Patient Experience manager at Callen-Lorde to shape a KMeans-based clustering workflow for open-ended survey comments. The project is being designed to turn unstructured patient feedback into interpretable service themes, with data mining methods planned for later expansion.</p></li>
+<li><strong>Core Processing Engine:</strong> Python (Pandas, NumPy)</li>
+<li><strong>Statistical Modeling:</strong> Statsmodels (Poisson GLM with log-link functions)</li>
+<li><strong>Machine Learning &amp; Clustering:</strong> Scikit-Learn (KMeans, StandardScaler, AgglomerativeClustering)</li>
+<li><strong>Exploratory Analytics &amp; Diagnostics:</strong> SciPy (Pearson/Spearman correlation &amp; p-value mapping), Matplotlib, Seaborn</li>
 </ul>
+<hr>
 </section>
-<section id="comprehensive-architecture-operational-history" class="level3">
-<h3 data-anchor-id="comprehensive-architecture-operational-history">Comprehensive Architecture &amp; Operational History</h3>
-<p>My foundational modeling work spans 3rd Normal Form clinical database design, civic ELT pipelines (Kimball Star Schema), and predictive geospatial analytics.</p>
+<section id="technical-leadership-team-dynamics" class="level2">
+<h2 class="anchored" data-anchor-id="technical-leadership-team-dynamics">Technical Leadership &amp; Team Dynamics</h2>
+<p>I served as the <strong>Technical Lead</strong> for this initiative, taking direct ownership of the data preprocessing pipelines, exploratory geographic diagnostics, and the engineering of the primary Poisson predictive model.</p>
+<p>Because Poisson regression was outside the standard boundaries of our coursework, I independently researched and piloted the methodology, leveraging my baseline exposure to Poisson arrival behaviors in Queue Theory alongside standard linear/multiple regression frameworks to steer the engine’s technical architecture.</p>
+<p>This project was executed within a highly aligned, collaborative team environment: * <strong>Organic Cross-Functional Execution:</strong> Rather than splitting into isolated silos where individuals sat on the sidelines, our entire group actively contributed across all project phases. * <strong>Structured Communications Infrastructure:</strong> Led by a dedicated Communications Partner, the team maintained momentum via a highly disciplined rhythm of weekly and bi-weekly virtual check-ins. * <strong>Documentation &amp; Synthesis Governance:</strong> A designated Writing Lead coordinated the collection, structuring, and compilation of all technical notes, code outputs, and empirical findings into our final conformed executive brief.</p>
+<hr>
+</section>
+<section id="the-implementation-lifecycle" class="level2">
+<h2 class="anchored" data-anchor-id="the-implementation-lifecycle">The Implementation Lifecycle</h2>
+<section id="phase-1-high-variability-preprocessing-data-cleaning" class="level3">
+<h3 class="anchored" data-anchor-id="phase-1-high-variability-preprocessing-data-cleaning">Phase 1: High-Variability Preprocessing &amp; Data Cleaning</h3>
+<p>The source data arrived as nine distinct, disconnected worksheets featuring intensive suppression footprints designed to protect patient privacy. To build a clean, unified dataset across 141 analytical zones, we executed three structural corrections:</p>
+<p>```python import pandas as pd import numpy as np</p>
+</section>
+</section>
+<section id="isolating-privacy-suppressed-negative-flags-to-protect-statistical-stability" class="level1">
+<h1>1. Isolating privacy-suppressed negative flags to protect statistical stability</h1>
+<p>def clean_suppression_flags(df, numeric_cols): for col in numeric_cols: # Transforming institutional data-suppression codes (-1, -5, -8, -9) into NaN df[col] = pd.to_numeric(df[col], errors=‘coerce’) df[col] = df[col].apply(lambda x: np.nan if x &lt; 0 else x) return df</p>
 <ul>
-<li><p><a href="./resume.html">Review my full technical timeline and completed research in my Resume</a></p></li>
-<li><p><a href="./WHO-project.html">Deep dive into the WHO Warm Hand-Off Project</a></p></li>
+<li><strong>Standardization Alignment:</strong> Conformed all disparate ZIP code schemas across datasets into a single categorical indexing data type[cite: 19].</li>
+<li><strong>Multimodal Rescaling:</strong> Deployed <code>StandardScaler</code> to normalize continuous variables measured across completely distinct units—such as median household income in raw dollars, poverty rates as percentages, and count variables—ensuring distance calculations were mathematically balanced during the machine learning phase[cite: 19].</li>
 </ul>
+<hr>
+<section id="phase-2-predictive-engine-the-rikers-island-unmasking" class="level2">
+<h2 class="anchored" data-anchor-id="phase-2-predictive-engine-the-rikers-island-unmasking">Phase 2: Predictive Engine &amp; The Rikers Island Unmasking</h2>
+<p>Because HIV diagnosis records are count-based outcomes rather than continuous, un-bounded variables, ordinary multiple linear regression (MLR) models can output negative predictions and distort variance indicators. We deployed a Poisson generalized linear model (GLM) featuring a log-link function.</p>
+<p>To properly scale the counts relative to varying neighborhood boundaries, we integrated 2020 Census population records directly into the model as an offset variable, effectively treating population scale as a fixed constant while modeling the underlying case distribution.</p>
+<section id="engineering-for-causal-anomalies-the-rikers-hack" class="level3">
+<h3 class="anchored" data-anchor-id="engineering-for-causal-anomalies-the-rikers-hack">Engineering for Causal Anomalies (The Rikers Hack)</h3>
+<p>Initial diagnostic passes revealed an massive outlier footprint at ZIP code 11370—the geographical anchor for the Rikers Island correctional facility. Because an institutional population displays fundamentally different public health patterns than standard residential zones, this single data point introduced severe skewing across our multivariable correlation matrices.</p>
+<p>To resolve this, we engineered an explicit institutional dummy variable directly into our final statistical sweep:</p>
+<ul>
+<li><strong>Deviance Optimization:</strong> Incorporating the institutional control variable caused the model’s baseline Deviance metric to drop from a highly unstable 27,695 down to an incredibly tight 3,644 in the sensitivity iteration.</li>
+<li><strong>Model Validation:</strong> The final sweep achieved a statistically robust McFadden’s Pseudo R-squared of 0.3922, confirming an elite fit for real-world categorical count modeling.</li>
+<li><strong>The Gini Indicator:</strong> The finalized model proved that the Gini coefficient (income inequality) maintained a powerful, independent positive relationship with elevated case counts, even when poverty and absolute household income metrics were held fully constant.</li>
+</ul>
+<hr>
 </section>
-<section id="education" class="level3">
-<h3 data-anchor-id="education">Education</h3>
-<p><strong>MS, Quantitative Methods and Modeling</strong><br>
-Baruch College (Zicklin School of Business) | June 2026</p>
-<p><strong>BA, French Modern Language, Minor in Art History</strong><br>
-Francis Marion University | December 2012</p>
+</section>
+<section id="phase-3-unsupervised-machine-learning-profile-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="phase-3-unsupervised-machine-learning-profile-clustering">Phase 3: Unsupervised Machine Learning Profile Clustering</h2>
+<p>To classify the 141 conformed ZIP codes based on overlapping layers of health metrics and socioeconomic context, we deployed an unsupervised K-Means clustering sequence, processing 14 continuous input features simultaneously.</p>
+<section id="calibration-cross-method-validation" class="level3">
+<h3 class="anchored" data-anchor-id="calibration-cross-method-validation">Calibration &amp; Cross-Method Validation</h3>
+<p>We tested cluster counts ranging from <span class="math inline">\(k = 2\)</span> through <span class="math inline">\(k = 10\)</span>, evaluating them using a combined Elbow and Silhouette framework. While a simple <span class="math inline">\(k=2\)</span> sequence offered the cleanest raw mathematical partition, we chose a 4-cluster solution to provide meaningful operational segments for real-world public health resource allocation:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Cluster Target Profile</th>
+<th style="text-align: left;">Zones</th>
+<th style="text-align: left;">Avg HIV Rate</th>
+<th style="text-align: left;">Median Income</th>
+<th style="text-align: left;">Poverty Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Cluster 0:</strong> Moderate-Burden Base</td>
+<td style="text-align: left;">79 ZIPs</td>
+<td style="text-align: left;">922</td>
+<td style="text-align: left;">$79,000</td>
+<td style="text-align: left;">16%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Cluster 1:</strong> High-Burden / High-Income</td>
+<td style="text-align: left;">7 ZIPs</td>
+<td style="text-align: left;">3,409</td>
+<td style="text-align: left;">$124,000</td>
+<td style="text-align: left;">12%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Cluster 2:</strong> Extreme Structural Disparity</td>
+<td style="text-align: left;">29 ZIPs</td>
+<td style="text-align: left;">2,755</td>
+<td style="text-align: left;">$49,000</td>
+<td style="text-align: left;">29%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Cluster 3:</strong> Low-Burden / High-Asset</td>
+<td style="text-align: left;">26 ZIPs</td>
+<td style="text-align: left;">1,060</td>
+<td style="text-align: left;">$139,000</td>
+<td style="text-align: left;">10%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="stability-verification" class="level3">
+<h3 class="anchored" data-anchor-id="stability-verification">Stability Verification</h3>
+<p>To prove the resulting boundaries were structural assets rather than algorithm-specific artifacts, we ran an identical validation layer using Hierarchical Agglomerative Clustering with Ward Linkage, which acts to minimize within-cluster variance during merge steps.</p>
+<p>Cross-tabulation modeling revealed near-identical cluster assignments between K-Means (Silhouette Score: 0.31) and Hierarchical Ward linkage (Silhouette Score: 0.32), establishing complete mathematical stability before passing the data to our writing lead for reporting.</p>
+<hr>
+</section>
+</section>
+<section id="project-documentation-artifacts" class="level2">
+<h2 class="anchored" data-anchor-id="project-documentation-artifacts">Project Documentation &amp; Artifacts</h2>
+<ul>
+<li><strong>Exploratory Jupyter Source Engine:</strong> <a href="https://colab.research.google.com/drive/1SHcu3JOyyU7wl18e8Zq-ZUdWbAQ01E0y?usp=sharing">Review Open-Source Google Colab Notebook</a></li>
+<li><strong>Executive Research Brief:</strong> <a href="https://docs.google.com/document/d/1KMfuRoCCQVhOgNWZzCOE5le0C_plvHJM/edit?usp=sharing&amp;ouid=102604893937505143516&amp;rtpof=true&amp;sd=true">Read the Final Comprehensive Project Report</a></li>
+</ul>
 
 
 </section>
 </section>
-</main></div>
-</div>
- <!-- /main -->
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     
