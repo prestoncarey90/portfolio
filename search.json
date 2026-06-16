@@ -30,56 +30,56 @@
   {
     "objectID": "mining-project.html",
     "href": "mining-project.html",
-    "title": "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine",
+    "title": "Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine",
     "section": "",
     "text": "Traditional public health models frequently default to using generic neighborhood poverty rates to explain health disparities, an approach that often hides more complex structural drivers. To test this limitation, our team architected a multi-layer analytical engine evaluating NYC HIV public health datasets (2019–2023) alongside localized Social Determinants of Health (SDOH) matrices across conformed ZIP code zones.\nBy implementing an offset Poisson regression model and unsupervised K-Means clustering, the engine successfully unmasked critical institutional anomalies—most notably the structural distortion caused by localized correctional populations—and demonstrated that wealth inequality (the Gini coefficient) serves as a far more potent predictor of localized health burden than income or poverty markers alone."
   },
   {
     "objectID": "mining-project.html#executive-summary",
     "href": "mining-project.html#executive-summary",
-    "title": "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine",
+    "title": "Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine",
     "section": "",
     "text": "Traditional public health models frequently default to using generic neighborhood poverty rates to explain health disparities, an approach that often hides more complex structural drivers. To test this limitation, our team architected a multi-layer analytical engine evaluating NYC HIV public health datasets (2019–2023) alongside localized Social Determinants of Health (SDOH) matrices across conformed ZIP code zones.\nBy implementing an offset Poisson regression model and unsupervised K-Means clustering, the engine successfully unmasked critical institutional anomalies—most notably the structural distortion caused by localized correctional populations—and demonstrated that wealth inequality (the Gini coefficient) serves as a far more potent predictor of localized health burden than income or poverty markers alone."
   },
   {
     "objectID": "mining-project.html#technical-stack-library-footprint",
     "href": "mining-project.html#technical-stack-library-footprint",
-    "title": "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine",
+    "title": "Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine",
     "section": "Technical Stack & Library Footprint",
     "text": "Technical Stack & Library Footprint\n\nCore Processing Engine: Python (Pandas, NumPy)\nStatistical Modeling: Statsmodels (Poisson GLM with log-link functions)\nMachine Learning & Clustering: Scikit-Learn (KMeans, StandardScaler, AgglomerativeClustering)\nExploratory Analytics & Diagnostics: SciPy (Pearson/Spearman correlation & p-value mapping), Matplotlib, Seaborn"
   },
   {
     "objectID": "mining-project.html#technical-leadership-team-dynamics",
     "href": "mining-project.html#technical-leadership-team-dynamics",
-    "title": "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine",
+    "title": "Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine",
     "section": "Technical Leadership & Team Dynamics",
-    "text": "Technical Leadership & Team Dynamics\nI served as the Technical Lead for this initiative, taking direct ownership of the data preprocessing pipelines, exploratory geographic diagnostics, and the engineering of the primary Poisson predictive model.\nBecause Poisson regression was outside the standard boundaries of our coursework, I independently researched and piloted the methodology, leveraging my baseline exposure to Poisson arrival behaviors in Queue Theory alongside standard linear/multiple regression frameworks to steer the engine’s technical architecture.\nThis project was executed within a highly aligned, collaborative team environment: * Organic Cross-Functional Execution: Rather than splitting into isolated silos where individuals sat on the sidelines, our entire group actively contributed across all project phases. * Structured Communications Infrastructure: Led by a dedicated Communications Partner, the team maintained momentum via a highly disciplined rhythm of weekly and bi-weekly virtual check-ins. * Documentation & Synthesis Governance: A designated Writing Lead coordinated the collection, structuring, and compilation of all technical notes, code outputs, and empirical findings into our final conformed executive brief."
+    "text": "Technical Leadership & Team Dynamics\nI served as the Technical Lead for this initiative, taking direct ownership of the data preprocessing pipelines, exploratory geographic diagnostics, and the engineering of the primary Poisson predictive model.\nBecause Poisson regression was outside the standard boundaries of our coursework, I independently researched and piloted the methodology, leveraging my baseline exposure to Poisson arrival behaviors in Queue Theory alongside standard linear/multiple regression frameworks to steer the engine’s technical architecture.\nThis project was executed within a highly aligned, collaborative team environment:\n\nOrganic Cross-Functional Execution: Rather than splitting into isolated silos where individuals sat on the sidelines, our entire group actively contributed across all project phases.\nStructured Communications Infrastructure: Led by a dedicated Communications Partner, the team maintained momentum via a highly disciplined rhythm of weekly and bi-weekly virtual check-ins.\nDocumentation & Synthesis Governance: A designated Writing Lead coordinated the collection, structuring, and compilation of all technical notes, code outputs, and empirical findings into our final conformed executive brief."
   },
   {
     "objectID": "mining-project.html#the-implementation-lifecycle",
     "href": "mining-project.html#the-implementation-lifecycle",
-    "title": "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine",
+    "title": "Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine",
     "section": "The Implementation Lifecycle",
-    "text": "The Implementation Lifecycle\n\nPhase 1: High-Variability Preprocessing & Data Cleaning\nThe source data arrived as nine distinct, disconnected worksheets featuring intensive suppression footprints designed to protect patient privacy. To build a clean, unified dataset across 141 analytical zones, we executed three structural corrections:\n```python import pandas as pd import numpy as np"
+    "text": "The Implementation Lifecycle\n\nPhase 1: High-Variability Preprocessing & Data Cleaning\nThe source data arrived as nine distinct, disconnected worksheets featuring intensive suppression footprints designed to protect patient privacy. To build a clean, unified dataset across 141 analytical zones, we executed three structural corrections:\n```python\nimport pandas as pd\nimport numpy as np"
   },
   {
     "objectID": "mining-project.html#phase-2-predictive-engine-the-rikers-island-unmasking",
     "href": "mining-project.html#phase-2-predictive-engine-the-rikers-island-unmasking",
-    "title": "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine",
+    "title": "Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine",
     "section": "Phase 2: Predictive Engine & The Rikers Island Unmasking",
     "text": "Phase 2: Predictive Engine & The Rikers Island Unmasking\nBecause HIV diagnosis records are count-based outcomes rather than continuous, un-bounded variables, ordinary multiple linear regression (MLR) models can output negative predictions and distort variance indicators. We deployed a Poisson generalized linear model (GLM) featuring a log-link function.\nTo properly scale the counts relative to varying neighborhood boundaries, we integrated 2020 Census population records directly into the model as an offset variable, effectively treating population scale as a fixed constant while modeling the underlying case distribution.\n\nEngineering for Causal Anomalies (The Rikers Hack)\nInitial diagnostic passes revealed an massive outlier footprint at ZIP code 11370—the geographical anchor for the Rikers Island correctional facility. Because an institutional population displays fundamentally different public health patterns than standard residential zones, this single data point introduced severe skewing across our multivariable correlation matrices.\nTo resolve this, we engineered an explicit institutional dummy variable directly into our final statistical sweep:\n\nDeviance Optimization: Incorporating the institutional control variable caused the model’s baseline Deviance metric to drop from a highly unstable 27,695 down to an incredibly tight 3,644 in the sensitivity iteration.\nModel Validation: The final sweep achieved a statistically robust McFadden’s Pseudo R-squared of 0.3922, confirming an elite fit for real-world categorical count modeling.\nThe Gini Indicator: The finalized model proved that the Gini coefficient (income inequality) maintained a powerful, independent positive relationship with elevated case counts, even when poverty and absolute household income metrics were held fully constant."
   },
   {
     "objectID": "mining-project.html#phase-3-unsupervised-machine-learning-profile-clustering",
     "href": "mining-project.html#phase-3-unsupervised-machine-learning-profile-clustering",
-    "title": "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine",
+    "title": "Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine",
     "section": "Phase 3: Unsupervised Machine Learning Profile Clustering",
     "text": "Phase 3: Unsupervised Machine Learning Profile Clustering\nTo classify the 141 conformed ZIP codes based on overlapping layers of health metrics and socioeconomic context, we deployed an unsupervised K-Means clustering sequence, processing 14 continuous input features simultaneously.\n\nCalibration & Cross-Method Validation\nWe tested cluster counts ranging from \\(k = 2\\) through \\(k = 10\\), evaluating them using a combined Elbow and Silhouette framework. While a simple \\(k=2\\) sequence offered the cleanest raw mathematical partition, we chose a 4-cluster solution to provide meaningful operational segments for real-world public health resource allocation:\n\n\n\n\n\n\n\n\n\n\nCluster Target Profile\nZones\nAvg HIV Rate\nMedian Income\nPoverty Rate\n\n\n\n\nCluster 0: Moderate-Burden Base\n79 ZIPs\n922\n$79,000\n16%\n\n\nCluster 1: High-Burden / High-Income\n7 ZIPs\n3,409\n$124,000\n12%\n\n\nCluster 2: Extreme Structural Disparity\n29 ZIPs\n2,755\n$49,000\n29%\n\n\nCluster 3: Low-Burden / High-Asset\n26 ZIPs\n1,060\n$139,000\n10%\n\n\n\n\n\nStability Verification\nTo prove the resulting boundaries were structural assets rather than algorithm-specific artifacts, we ran an identical validation layer using Hierarchical Agglomerative Clustering with Ward Linkage, which acts to minimize within-cluster variance during merge steps.\nCross-tabulation modeling revealed near-identical cluster assignments between K-Means (Silhouette Score: 0.31) and Hierarchical Ward linkage (Silhouette Score: 0.32), establishing complete mathematical stability before passing the data to our writing lead for reporting."
   },
   {
     "objectID": "mining-project.html#project-documentation-artifacts",
     "href": "mining-project.html#project-documentation-artifacts",
-    "title": "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine",
+    "title": "Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine",
     "section": "Project Documentation & Artifacts",
     "text": "Project Documentation & Artifacts\n\nExploratory Jupyter Source Engine: Review Open-Source Google Colab Notebook\nExecutive Research Brief: Read the Final Comprehensive Project Report"
   },
@@ -144,7 +144,7 @@
     "href": "PEX-project.html#core-pipeline-architecture",
     "title": "PEX Project: Patient Experience Survey Clustering",
     "section": "Core Pipeline Architecture",
-    "text": "Core Pipeline Architecture\nThe technical engine processes the survey workbook through a clean, multi-stage transformation lifecycle:\n```python import pandas as pd import re import string from nltk.stem import WordNetLemmatizer from sklearn.feature_extraction.text import TfidfVectorizer from sklearn.cluster import KMeans"
+    "text": "Core Pipeline Architecture\nThe technical engine processes the survey workbook through a clean, multi-stage transformation lifecycle:\n```python\nimport pandas as pd\nimport re\nimport string\nfrom nltk.stem import WordNetLemmatizer\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.cluster import KMeans"
   },
   {
     "objectID": "index.html",

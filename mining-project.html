@@ -8,7 +8,7 @@
 
 <meta name="description" content="Deploying Poisson regression and unsupervised K-Means clustering to decouple neighborhood poverty from systemic HIV public health disparities across NYC ZIP codes.">
 
-<title>SDOH Project: Epidemiological Social Determinants of Health Analytics Engine – Preston Carey Leslie</title>
+<title>Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine – Preston Carey Leslie</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -203,7 +203,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">SDOH Project: Epidemiological Social Determinants of Health Analytics Engine</h1>
+<h1 class="title">Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Epidemiological Data</div>
     <div class="quarto-category">Python</div>
@@ -251,7 +251,12 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="technical-leadership-team-dynamics">Technical Leadership &amp; Team Dynamics</h2>
 <p>I served as the <strong>Technical Lead</strong> for this initiative, taking direct ownership of the data preprocessing pipelines, exploratory geographic diagnostics, and the engineering of the primary Poisson predictive model.</p>
 <p>Because Poisson regression was outside the standard boundaries of our coursework, I independently researched and piloted the methodology, leveraging my baseline exposure to Poisson arrival behaviors in Queue Theory alongside standard linear/multiple regression frameworks to steer the engine’s technical architecture.</p>
-<p>This project was executed within a highly aligned, collaborative team environment: * <strong>Organic Cross-Functional Execution:</strong> Rather than splitting into isolated silos where individuals sat on the sidelines, our entire group actively contributed across all project phases. * <strong>Structured Communications Infrastructure:</strong> Led by a dedicated Communications Partner, the team maintained momentum via a highly disciplined rhythm of weekly and bi-weekly virtual check-ins. * <strong>Documentation &amp; Synthesis Governance:</strong> A designated Writing Lead coordinated the collection, structuring, and compilation of all technical notes, code outputs, and empirical findings into our final conformed executive brief.</p>
+<p>This project was executed within a highly aligned, collaborative team environment:</p>
+<ul>
+<li><strong>Organic Cross-Functional Execution:</strong> Rather than splitting into isolated silos where individuals sat on the sidelines, our entire group actively contributed across all project phases.</li>
+<li><strong>Structured Communications Infrastructure:</strong> Led by a dedicated Communications Partner, the team maintained momentum via a highly disciplined rhythm of weekly and bi-weekly virtual check-ins.</li>
+<li><strong>Documentation &amp; Synthesis Governance:</strong> A designated Writing Lead coordinated the collection, structuring, and compilation of all technical notes, code outputs, and empirical findings into our final conformed executive brief.</li>
+</ul>
 <hr>
 </section>
 <section id="the-implementation-lifecycle" class="level2">
@@ -259,7 +264,9 @@ window.Quarto = {
 <section id="phase-1-high-variability-preprocessing-data-cleaning" class="level3">
 <h3 class="anchored" data-anchor-id="phase-1-high-variability-preprocessing-data-cleaning">Phase 1: High-Variability Preprocessing &amp; Data Cleaning</h3>
 <p>The source data arrived as nine distinct, disconnected worksheets featuring intensive suppression footprints designed to protect patient privacy. To build a clean, unified dataset across 141 analytical zones, we executed three structural corrections:</p>
-<p>```python import pandas as pd import numpy as np</p>
+<p>```python</p>
+<p>import pandas as pd</p>
+<p>import numpy as np</p>
 </section>
 </section>
 <section id="isolating-privacy-suppressed-negative-flags-to-protect-statistical-stability" class="level1">
