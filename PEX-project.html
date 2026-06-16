@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -153,10 +188,6 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#methodology-unsupervised-discovery-vs.-predefined-categories" id="toc-methodology-unsupervised-discovery-vs.-predefined-categories" class="nav-link" data-scroll-target="#methodology-unsupervised-discovery-vs.-predefined-categories">Methodology: Unsupervised Discovery vs.&nbsp;Predefined Categories</a></li>
   <li><a href="#core-pipeline-architecture" id="toc-core-pipeline-architecture" class="nav-link" data-scroll-target="#core-pipeline-architecture">Core Pipeline Architecture</a></li>
-  <li><a href="#text-ingestion-normalization" id="toc-text-ingestion-normalization" class="nav-link" data-scroll-target="#text-ingestion-normalization">1. Text Ingestion &amp; Normalization</a></li>
-  <li><a href="#feature-extraction-via-tf-idf" id="toc-feature-extraction-via-tf-idf" class="nav-link" data-scroll-target="#feature-extraction-via-tf-idf">2. Feature Extraction via TF-IDF</a></li>
-  <li><a href="#model-calibration-kmeans" id="toc-model-calibration-kmeans" class="nav-link" data-scroll-target="#model-calibration-kmeans">3. Model Calibration (KMeans)</a></li>
-  <li><a href="#result-serialization-export" id="toc-result-serialization-export" class="nav-link" data-scroll-target="#result-serialization-export">4. Result Serialization &amp; Export</a></li>
   </ul>
 </nav>
     </div>
@@ -221,29 +252,39 @@ ul.task-list li input[type="checkbox"] {
 <section id="core-pipeline-architecture" class="level2">
 <h2 class="anchored" data-anchor-id="core-pipeline-architecture">Core Pipeline Architecture</h2>
 <p>The technical engine processes the survey workbook through a clean, multi-stage transformation lifecycle:</p>
-<p>```python</p>
-<p>import pandas as pd</p>
-<p>import re</p>
-<p>import string</p>
-<p>from nltk.stem import WordNetLemmatizer</p>
-<p>from sklearn.feature_extraction.text import TfidfVectorizer</p>
-<p>from sklearn.cluster import KMeans</p>
-</section>
-<section id="text-ingestion-normalization" class="level1">
-<h1>1. Text Ingestion &amp; Normalization</h1>
-<p>def clean_text(text, stop_words): lem = WordNetLemmatizer() text = str(text).lower() text = text.translate(str.maketrans(string.punctuation, ’ ’ * len(string.punctuation))) tokens = re.split(r’+‘, text) tokens = [lem.lemmatize(token) for token in tokens if token.isalpha() and token not in stop_words] return’ ’.join(tokens)</p>
-</section>
-<section id="feature-extraction-via-tf-idf" class="level1">
-<h1>2. Feature Extraction via TF-IDF</h1>
-<p>tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=2) tfidf_matrix = tfidf_vectorizer.fit_transform(df[“cleaned_text”])</p>
-</section>
-<section id="model-calibration-kmeans" class="level1">
-<h1>3. Model Calibration (KMeans)</h1>
-<p>k = 5 km = KMeans(n_clusters=k, random_state=42, n_init=10) km.fit(tfidf_matrix) df[“cluster”] = km.labels_</p>
-</section>
-<section id="result-serialization-export" class="level1">
-<h1>4. Result Serialization &amp; Export</h1>
-<p>output_path = r”patient_experience_clustered_results.xlsx” df.to_excel(output_path, index=False)</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.stem <span class="im">import</span> WordNetLemmatizer</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> TfidfVectorizer</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Text Ingestion &amp; Normalization</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_text(text, stop_words):</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    lem <span class="op">=</span> WordNetLemmatizer()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> <span class="bu">str</span>(text).lower()</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> text.translate(<span class="bu">str</span>.maketrans(string.punctuation, <span class="st">' '</span> <span class="op">*</span> <span class="bu">len</span>(string.punctuation)))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> re.split(<span class="vs">r'</span><span class="dv">\W</span><span class="op">+</span><span class="vs">'</span>, text)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [lem.lemmatize(token) <span class="cf">for</span> token <span class="kw">in</span> tokens <span class="cf">if</span> token.isalpha() <span class="kw">and</span> token <span class="kw">not</span> <span class="kw">in</span> stop_words]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">' '</span>.join(tokens)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Feature Extraction via TF-IDF</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>tfidf_vectorizer <span class="op">=</span> TfidfVectorizer(max_df<span class="op">=</span><span class="fl">0.95</span>, min_df<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>tfidf_matrix <span class="op">=</span> tfidf_vectorizer.fit_transform(df[<span class="st">"cleaned_text"</span>])</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Model Calibration (KMeans)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>km <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>k, random_state<span class="op">=</span><span class="dv">42</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>km.fit(tfidf_matrix)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"cluster"</span>] <span class="op">=</span> km.labels_</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Result Serialization &amp; Export</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>output_path <span class="op">=</span> <span class="vs">r"patient_experience_clustered_results</span><span class="dv">.</span><span class="vs">xlsx"</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>df.to_excel(output_path, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
