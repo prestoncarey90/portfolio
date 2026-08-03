@@ -181,7 +181,7 @@ window.Quarto = {
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-completed-projects">    
         <li>
     <a class="dropdown-item" href="./warehouse-project.html">
- <span class="dropdown-text">CIP Project</span></a>
+ <span class="dropdown-text">CI Project</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./mining-project.html">
@@ -189,6 +189,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./testimonials.html"> 
+<span class="menu-text">Testimonials</span></a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./resume.html"> <i class="bi bi-file-text" role="img">
 </i> 
@@ -217,8 +221,6 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#phase-1-high-variability-preprocessing-data-cleaning" id="toc-phase-1-high-variability-preprocessing-data-cleaning" class="nav-link" data-scroll-target="#phase-1-high-variability-preprocessing-data-cleaning">Phase 1: High-Variability Preprocessing &amp; Data Cleaning</a></li>
   </ul></li>
-  <li><a href="#isolating-privacy-suppressed-negative-flags-to-protect-statistical-stability" id="toc-isolating-privacy-suppressed-negative-flags-to-protect-statistical-stability" class="nav-link" data-scroll-target="#isolating-privacy-suppressed-negative-flags-to-protect-statistical-stability">1. Isolating privacy-suppressed negative flags to protect statistical stability</a>
-  <ul class="collapse">
   <li><a href="#phase-2-predictive-engine-the-rikers-island-unmasking" id="toc-phase-2-predictive-engine-the-rikers-island-unmasking" class="nav-link" data-scroll-target="#phase-2-predictive-engine-the-rikers-island-unmasking">Phase 2: Predictive Engine &amp; The Rikers Island Unmasking</a>
   <ul class="collapse">
   <li><a href="#engineering-for-causal-anomalies-the-rikers-hack" id="toc-engineering-for-causal-anomalies-the-rikers-hack" class="nav-link" data-scroll-target="#engineering-for-causal-anomalies-the-rikers-hack">Engineering for Causal Anomalies (The Rikers Hack)</a></li>
@@ -228,8 +230,11 @@ window.Quarto = {
   <li><a href="#calibration-cross-method-validation" id="toc-calibration-cross-method-validation" class="nav-link" data-scroll-target="#calibration-cross-method-validation">Calibration &amp; Cross-Method Validation</a></li>
   <li><a href="#stability-verification" id="toc-stability-verification" class="nav-link" data-scroll-target="#stability-verification">Stability Verification</a></li>
   </ul></li>
-  <li><a href="#project-documentation-artifacts" id="toc-project-documentation-artifacts" class="nav-link" data-scroll-target="#project-documentation-artifacts">Project Documentation &amp; Artifacts</a></li>
+  <li><a href="#appendix-a-exploratory-multiple-linear-regression-loocv-framework" id="toc-appendix-a-exploratory-multiple-linear-regression-loocv-framework" class="nav-link" data-scroll-target="#appendix-a-exploratory-multiple-linear-regression-loocv-framework">Appendix A: Exploratory Multiple Linear Regression &amp; LOOCV Framework</a>
+  <ul class="collapse">
+  <li><a href="#the-generalization-gap-diagnostic" id="toc-the-generalization-gap-diagnostic" class="nav-link" data-scroll-target="#the-generalization-gap-diagnostic">The Generalization Gap Diagnostic</a></li>
   </ul></li>
+  <li><a href="#project-documentation-artifacts" id="toc-project-documentation-artifacts" class="nav-link" data-scroll-target="#project-documentation-artifacts">Project Documentation &amp; Artifacts</a></li>
   </ul>
 </nav>
     </div>
@@ -298,24 +303,26 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="the-implementation-lifecycle">The Implementation Lifecycle</h2>
 <section id="phase-1-high-variability-preprocessing-data-cleaning" class="level3">
 <h3 class="anchored" data-anchor-id="phase-1-high-variability-preprocessing-data-cleaning">Phase 1: High-Variability Preprocessing &amp; Data Cleaning</h3>
-<p>The source data arrived as nine distinct, disconnected worksheets featuring intensive suppression footprints designed to protect patient privacy. To build a clean, unified dataset across 141 analytical zones, we executed three structural corrections:</p>
+<p>The source data arrived across nine distinct, disconnected worksheets initially encompassing 186 raw records. Due to intensive privacy suppression footprints designed to protect patient anonymity, these matrices contained invalid negative values (-1, -5, -8, -9)[cite: 8]. To build a stable, conformed dataset, we executed three structural corrections:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-</section>
-<section id="isolating-privacy-suppressed-negative-flags-to-protect-statistical-stability" class="level1">
-<h1>1. Isolating privacy-suppressed negative flags to protect statistical stability</h1>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_suppression_flags(df, numeric_cols):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> numeric_cols:</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Transforming institutional data-suppression codes (-1, -5, -8, -9) into NaN</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        df[col] <span class="op">=</span> pd.to_numeric(df[col], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        df[col] <span class="op">=</span> df[col].<span class="bu">apply</span>(<span class="kw">lambda</span> x: np.nan <span class="cf">if</span> x <span class="op">&lt;</span> <span class="dv">0</span> <span class="cf">else</span> x)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Isolating privacy-suppressed negative flags to protect statistical stability</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_suppression_flags(df, numeric_cols):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> numeric_cols:</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        df[col] <span class="op">=</span> pd.to_numeric(df[col], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        df[col] <span class="op">=</span> df[col].<span class="bu">apply</span>(<span class="kw">lambda</span> x: np.nan <span class="cf">if</span> x <span class="op">&lt;</span> <span class="dv">0</span> <span class="cf">else</span> x)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><strong>Standardization Alignment:</strong> Conformed all disparate ZIP code schemas across datasets into a single categorical indexing data type[cite: 19].</li>
-<li><strong>Multimodal Rescaling:</strong> Deployed <code>StandardScaler</code> to normalize continuous variables measured across completely distinct units—such as median household income in raw dollars, poverty rates as percentages, and count variables—ensuring distance calculations were mathematically balanced during the machine learning phase[cite: 19].</li>
+<li><strong>Standardization Alignment:</strong> Conformed all disparate ZIP code schemas across datasets into a single categorical indexing data type.<br>
+</li>
+<li><strong>Feature Sparsity Filtering:</strong> Evaluated the data stability distribution across all 186 rows. The HIV rate for the 13–24 age group was identified as highly sparse and was programmatically removed to protect model reliability.<br>
+</li>
+<li><strong>Analytical Matrix Conformation:</strong> After dropping unmapped records and isolating invalid flags, the final processing matrix conformed to 141 high-fidelity ZIP codes across 14 major input features. Deployed StandardScaler to normalize continuous variables prior to machine learning execution.</li>
 </ul>
 <hr>
+</section>
+</section>
 <section id="phase-2-predictive-engine-the-rikers-island-unmasking" class="level2">
 <h2 class="anchored" data-anchor-id="phase-2-predictive-engine-the-rikers-island-unmasking">Phase 2: Predictive Engine &amp; The Rikers Island Unmasking</h2>
 <p>Because HIV diagnosis records are count-based outcomes rather than continuous, un-bounded variables, ordinary multiple linear regression (MLR) models can output negative predictions and distort variance indicators. We deployed a Poisson generalized linear model (GLM) featuring a log-link function.</p>
@@ -394,6 +401,17 @@ window.Quarto = {
 <hr>
 </section>
 </section>
+<section id="appendix-a-exploratory-multiple-linear-regression-loocv-framework" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-a-exploratory-multiple-linear-regression-loocv-framework">Appendix A: Exploratory Multiple Linear Regression &amp; LOOCV Framework</h2>
+<p>Prior to finalizing our Poisson generalized linear model (GLM), our team engineered an exploratory Multiple Linear Regression (MLR) pipeline as a structural validation layer. The objective was to test whether aggregated demographic rate variables (segmented by race, gender, and age groups) could reliably predict overall neighborhood HIV case rates.</p>
+<p>To verify model stability and measure how effectively the parameters generalized to unseen data, we implemented a rigorous <strong>Leave-One-Out Cross-Validation (LOOCV)</strong> loop across the dataset.</p>
+<section id="the-generalization-gap-diagnostic" class="level3">
+<h3 class="anchored" data-anchor-id="the-generalization-gap-diagnostic">The Generalization Gap Diagnostic</h3>
+<p>The cross-validation sequence unmasked a distinct variance gap between our in-sample and out-of-sample performance metrics: * <strong>In-Sample Training MSE:</strong> 2,585 * <strong>Out-of-Sample LOOCV MSE:</strong> 5,062 * <strong>Structural Generalization Inflation:</strong> 1.96×</p>
+<p>While a 1.96× generalization gap indicated the model was not catastrophically overfitting, our root-cause analysis revealed a deep architectural vulnerability: high covariance. Because the demographic predictors were mathematically aggregated sub-components of the target outcome, they introduced severe multicollinearity into the ordinary least squares (OLS) engine.</p>
+<p>This diagnostic discovery served as our team’s primary engineering pivot point</p>
+</section>
+</section>
 <section id="project-documentation-artifacts" class="level2">
 <h2 class="anchored" data-anchor-id="project-documentation-artifacts">Project Documentation &amp; Artifacts</h2>
 <ul>
@@ -402,7 +420,6 @@ window.Quarto = {
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
