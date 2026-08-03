@@ -1,0 +1,42 @@
+---
+title: "Testimonials"
+description: "Endorsements and peer feedback from professional colleagues, healthcare leaders, and community collaborators."
+---
+
+## What Colleagues & Partners Say
+
+[Reliable]{.badge .bg-primary} [Communicative]{.badge .bg-primary} [Empathetic]{.badge .bg-primary} [System-Driven]{.badge .bg-primary} [Innovative]{.badge .bg-primary} [Focused]{.badge .bg-primary} [Ethical]{.badge .bg-primary} [Detailed]{.badge .bg-primary}
+
+::: {.grid .mt-4}
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100 .shadow-sm .p-3}
+> "Preston is a highly empathetic, system-driven thinker who considers projects from many angles before honing in on those that best serve the client, provider, or patient. He has a unique ability to teach with deep patience and flexible perspective."
+
+**Remy M.**  
+*Senior Patient Care Associate*  
+*Professional Peer & Work Colleague*
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100 .shadow-sm .p-3}
+> "Reliable, professional, and ethical. You can count on Preston to contribute to overall success with genuine care that makes teams feel comfortable."
+
+**Kristina Janson, DPM**  
+*Podiatrist*  
+*Professional Peer*
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100 .shadow-sm .p-3}
+> "Innovative, intelligent, and detailed. His forward-thinking approach, organizational strength, and outgoing style make him a valuable asset to any project."
+
+**John Kennedy**  
+*Community Event Organizer*  
+*Group Collaborator*
+:::
+:::
+
+:::

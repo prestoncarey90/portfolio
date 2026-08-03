@@ -21,9 +21,11 @@ website:
       - text: Completed Projects
         menu:
           - href: warehouse-project.qmd
-            text: CIP Project
+            text: CI Project
           - href: mining-project.qmd
             text: SDOH Project
+      - href: testimonials.qmd
+        text: Testimonials
       - href: resume.qmd
         text: Resume
         icon: file-text

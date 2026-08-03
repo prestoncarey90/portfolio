@@ -40,6 +40,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 
 # 1. Text Ingestion & Normalization
+
 def clean_text(text, stop_words):
     lem = WordNetLemmatizer()
     text = str(text).lower()
@@ -49,15 +50,19 @@ def clean_text(text, stop_words):
     return ' '.join(tokens)
 
 # 2. Feature Extraction via TF-IDF
+
 tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=2)
 tfidf_matrix = tfidf_vectorizer.fit_transform(df["cleaned_text"])
 
 # 3. Model Calibration (KMeans)
+
 k = 5
 km = KMeans(n_clusters=k, random_state=42, n_init=10)
 km.fit(tfidf_matrix)
 df["cluster"] = km.labels_
 
 # 4. Result Serialization & Export
+
 output_path = r"patient_experience_clustered_results.xlsx"
 df.to_excel(output_path, index=False)
+```

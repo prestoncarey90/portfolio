@@ -1,5 +1,5 @@
 ---
-title: "SDOH Project: Epidemiological Social Determinants of Health Analytics Engine"
+title: "Social Determinants of Health (SDOH) Project: Epidemiological Social Determinants of Health Analytics Engine"
 description: "Deploying Poisson regression and unsupervised K-Means clustering to decouple neighborhood poverty from systemic HIV public health disparities across NYC ZIP codes."
 categories: [Epidemiological Data, Python, Poisson Regression, Unsupervised Machine Learning, Operations Research]
 ---
@@ -23,6 +23,7 @@ I served as the **Technical Lead** for this initiative, taking direct ownership 
 Because Poisson regression was outside the standard boundaries of our coursework, I independently researched and piloted the methodology, leveraging my baseline exposure to Poisson arrival behaviors in Queue Theory alongside standard linear/multiple regression frameworks to steer the engine's technical architecture.
 
 This project was executed within a highly aligned, collaborative team environment:
+
 * **Organic Cross-Functional Execution:** Rather than splitting into isolated silos where individuals sat on the sidelines, our entire group actively contributed across all project phases.
 * **Structured Communications Infrastructure:** Led by a dedicated Communications Partner, the team maintained momentum via a highly disciplined rhythm of weekly and bi-weekly virtual check-ins.
 * **Documentation & Synthesis Governance:** A designated Writing Lead coordinated the collection, structuring, and compilation of all technical notes, code outputs, and empirical findings into our final conformed executive brief.
@@ -32,22 +33,23 @@ This project was executed within a highly aligned, collaborative team environmen
 ## The Implementation Lifecycle
 
 ### Phase 1: High-Variability Preprocessing & Data Cleaning
-The source data arrived as nine distinct, disconnected worksheets featuring intensive suppression footprints designed to protect patient privacy. To build a clean, unified dataset across 141 analytical zones, we executed three structural corrections:
+The source data arrived across nine distinct, disconnected worksheets initially encompassing 186 raw records. Due to intensive privacy suppression footprints designed to protect patient anonymity, these matrices contained invalid negative values (-1, -5, -8, -9)[cite: 8]. To build a stable, conformed dataset, we executed three structural corrections:
 
 ```python
 import pandas as pd
 import numpy as np
 
-# 1. Isolating privacy-suppressed negative flags to protect statistical stability
+# Isolating privacy-suppressed negative flags to protect statistical stability
 def clean_suppression_flags(df, numeric_cols):
     for col in numeric_cols:
-        # Transforming institutional data-suppression codes (-1, -5, -8, -9) into NaN
         df[col] = pd.to_numeric(df[col], errors='coerce')
         df[col] = df[col].apply(lambda x: np.nan if x < 0 else x)
     return df
+```
 
-* **Standardization Alignment:** Conformed all disparate ZIP code schemas across datasets into a single categorical indexing data type[cite: 19].
-* **Multimodal Rescaling:** Deployed `StandardScaler` to normalize continuous variables measured across completely distinct units—such as median household income in raw dollars, poverty rates as percentages, and count variables—ensuring distance calculations were mathematically balanced during the machine learning phase[cite: 19].
+* **Standardization Alignment:** Conformed all disparate ZIP code schemas across datasets into a single categorical indexing data type.  
+* **Feature Sparsity Filtering:** Evaluated the data stability distribution across all 186 rows. The HIV rate for the 13–24 age group was identified as highly sparse and was programmatically removed to protect model reliability.  
+* **Analytical Matrix Conformation:** After dropping unmapped records and isolating invalid flags, the final processing matrix conformed to 141 high-fidelity ZIP codes across 14 major input features. Deployed StandardScaler to normalize continuous variables prior to machine learning execution. 
 
 ---
 
@@ -86,6 +88,22 @@ To prove the resulting boundaries were structural assets rather than algorithm-s
 Cross-tabulation modeling revealed near-identical cluster assignments between K-Means (Silhouette Score: 0.31) and Hierarchical Ward linkage (Silhouette Score: 0.32), establishing complete mathematical stability before passing the data to our writing lead for reporting.
 
 ---
+
+## Appendix A: Exploratory Multiple Linear Regression & LOOCV Framework
+
+Prior to finalizing our Poisson generalized linear model (GLM), our team engineered an exploratory Multiple Linear Regression (MLR) pipeline as a structural validation layer. The objective was to test whether aggregated demographic rate variables (segmented by race, gender, and age groups) could reliably predict overall neighborhood HIV case rates. 
+
+To verify model stability and measure how effectively the parameters generalized to unseen data, we implemented a rigorous **Leave-One-Out Cross-Validation (LOOCV)** loop across the dataset.
+
+### The Generalization Gap Diagnostic
+The cross-validation sequence unmasked a distinct variance gap between our in-sample and out-of-sample performance metrics:
+* **In-Sample Training MSE:** 2,585
+* **Out-of-Sample LOOCV MSE:** 5,062
+* **Structural Generalization Inflation:** 1.96×
+
+While a 1.96× generalization gap indicated the model was not catastrophically overfitting, our root-cause analysis revealed a deep architectural vulnerability: high covariance. Because the demographic predictors were mathematically aggregated sub-components of the target outcome, they introduced severe multicollinearity into the ordinary least squares (OLS) engine. 
+
+This diagnostic discovery served as our team's primary engineering pivot point
 
 ## Project Documentation & Artifacts
 * **Exploratory Jupyter Source Engine:** [Review Open-Source Google Colab Notebook](https://colab.research.google.com/drive/1SHcu3JOyyU7wl18e8Zq-ZUdWbAQ01E0y?usp=sharing)

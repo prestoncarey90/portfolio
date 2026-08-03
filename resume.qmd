@@ -1,113 +1,87 @@
 ---
 title: "Resume"
-description: "A text-first summary of Preston Carey Leslie's experience in implementation architecture, data strategy, and operational leadership."
+description: "A text-first summary of Preston Carey Leslie's experience in implementation architecture, business systems administration, and operational leadership."
 ---
 
 ## Professional Summary
 
-Strategic Policy Analyst and Healthcare Implementation Architect with 9+ years of operational leadership and 5 years in high-stakes healthcare systems. I bridge the gap between clinical intent and technical reality through data architecture, system governance, and clear stakeholder translation. My work centers on building reliable infrastructure for complex civic and healthcare environments.
+Workforce Data Operations Architect & Business Systems Administrator with 15 years of operational leadership and 5+ years of hands-on experience optimizing enterprise data infrastructure, administering software systems, and executing data governance across healthcare and multi-stakeholder environments. Grounded in public service, equity, and labor governance, specializing in translating frontline operational friction into actionable technical requirements and executive-level insights.
 
 ## Core Competencies
 
-- Data Architecture & Engineering: dbt, BigQuery, SQL, Python, YAML, and API integration logic.
-<<<<<<< HEAD
-- Systems & Software Auditing: Enterprise EHR migration advocacy (Epic), operational workflow analysis, and access provisioning/permissions auditing.
-=======
-<<<<<<< HEAD
-- Systems & Software Auditing: Enterprise EHR migration advocacy (Epic), operational workflow analysis, and access provisioning/permissions auditing.
-=======
-- Systems Implementation: Enterprise EHR migration (Epic), SaaS configuration, and complex permissions logic.
->>>>>>> 0638db9c6caafb7a2571bf3bb2e78789d845923f
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
-- Dimensional Modeling: Kimball-style star schemas, ELT pipeline design, and relational database architecture (3NF).
-- Operational Leadership: Cross-functional team scaling, process stabilization, and contingent workforce management.
-- Strategic Governance: Technical documentation, stakeholder translation, UAT leadership, and front-line data protection.
+- **Data Engineering & Analytics:** Python & SQL Programming, dbt, BigQuery, REST APIs & Middleware Integration, Advanced Microsoft Excel, Kimball Dimensional Modeling, Cloud Platforms (GCP, AWS).
+- **Systems & Software Administration:** Enterprise EHR/ERP migration (NextGen to Epic), system configuration, user access provisioning, ITIL framework alignment, and SLA compliance.
+- **Operations & Governance:** Enterprise asset management, IT helpdesk incident triage, root-cause troubleshooting, technical documentation/runbooks, and data quality control.
+- **Stakeholder Leadership:** Executive-level briefings, cross-functional group collaboration, business requirements gathering, and labor governance (300+ personnel).
 
-## Experience
+## Professional Experience
 
-### Lead Patient Care Associate
-Callen-Lorde | 2021-2026
+### Lead Patient Care Associate (Implementation Consultant)
+Callen-Lorde | April 2021 – March 2026
 
-<<<<<<< HEAD
-- Directed technical advocacy and operational data governance audits during an 18,000-patient Epic EHR migration, reporting directly to executive leadership to unblock operational friction.
-=======
-<<<<<<< HEAD
-- Directed technical advocacy and operational data governance audits during an 18,000-patient Epic EHR migration, reporting directly to executive leadership to unblock operational friction.
-=======
-- Directed technical advocacy and data governance during an 18,000-patient Epic EHR migration, reporting directly to executive leadership to unblock operational friction.
->>>>>>> 0638db9c6caafb7a2571bf3bb2e78789d845923f
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
-- Resolved 10-20 high-friction systemic issues daily, serving as a critical escalation point to protect data integrity and ensure equitable care access for trans and nonbinary patients.
-- Served as a Union Delegate for 300+ staff members, navigating two contract negotiations and utilizing horizontal peer communication to protect worker scopes.
-- Diagnosed critical gaps in crisis triage and behavioral health referral workflows through direct collaboration with front-line stakeholders, identifying the systemic friction that directly informs my independent, post-graduate architectural builds.
+- **Enterprise Migration & Data Auditing:** Navigated core software architecture for an 18,000-user ecosystem during an intensive NextGen-to-Epic transition; audited source-to-destination field mapping and user access workflows to preserve critical demographic data layers.
+- **Incident Management & Telemetry Optimization:** Engineered a telemetry tracking system in Excel/Google Sheets to capture system bottlenecks and submitted comprehensive helpdesk tickets across IT, PAS, and Patient Experience; earned management recognition for meticulous root-cause notes, reducing processing latency by 50%.
+- **EHR Workflow Liaison & Technical Support:** Served as an informal Epic EHR operational liaison for multidisciplinary teams—including Therapists, Psychiatrists, and Admin Supervisors—translating role-specific UI variations to resolve real-time workflow friction and inform formal support playbooks.
+- **Cross-Functional Leadership & Governance:** Elected 1199SEIU Union Delegate representing 300+ personnel; built collaborative relationships with executive leadership to translate frontline operational friction into structured business requirements.
+- **Training & Onboarding:** Designed and delivered onboarding training to incoming staff on system navigation, data entry standards, and workflow documentation to support consistent data quality.
 
-### Server, F&B Reservation Agent, and Event Coordinator
-<<<<<<< HEAD
-The Standard Hotels, ABCV | 2015-2021
-=======
-<<<<<<< HEAD
-The Standard Hotels, ABCV | 2015-2021
-=======
-The Standard Hotels, ABCV | 2017-2021
->>>>>>> 0638db9c6caafb7a2571bf3bb2e78789d845923f
->>>>>>> e4da7252175c4dcc9170327e4db7466498f8c974
+### F&B Reservation Agent and Server
+The Standard Hotels & ABCV | May 2015 – May 2021
 
-- Orchestrated complex operational data and customer logic across seven NYC-based venues using enterprise CRM systems (OpenTable, SevenRooms, and Tripleseat).
-- Safeguarded record accuracy and process continuity in a shared global CRM environment, supporting 300+ daily guest interactions in a high-concurrency setting.
-- Facilitated event contracts, procurement, and seamless service coordination, translating high-volume hospitality demands into structured operational workflows.
+- **Multi-Venue System Coordination:** Orchestrated high-volume operational data and customer logic across 7 high-concurrency enterprise systems utilizing SevenRooms and Tripleseat platform architectures.
+- **Database Record Integrity:** Maintained strict attention to detail to secure 100% record validation and deduplication accuracy across 300+ daily guest profiles within a shared global database.
+- **High-Concurrency Workflow Optimization:** Maintained complete ownership of real-time resource routing and service logistics under peak operational demand, prioritizing competing requirements under pressure.
+- **Contract Validation & Fulfillment:** Facilitated small-scale event procurement contracts; utilized Microsoft Excel to reconcile accounts and verify 100% accuracy in contract tracking and financial reconciliation.
 
-### Senior Program and Account Lead
-Del Monsoon | 2010-2019
+### Senior Program Operations Lead
+Del Monsoon | December 2010 – December 2020
 
-- Acted as the core operational lead, dynamically scaling execution teams from a two-person nucleus to upwards of 100+ contingent staff and cross-functional subcontractors to deliver high-stakes project mandates.
-- Directed end-to-end project delivery, managed event budgets, invoicing, and vendor logistics for complex engagements serving 1,000+ attendees.
-- Identified and converted organic growth opportunities, generating over $60K in new business through relationship management and flawless operational continuity.
+- **Enterprise Asset Management & Equipment Tracking:** Administered inventory logs, maintenance schedules, and venue deliveries for physical rental equipment and AV infrastructure, securing 100% asset accountability and zero gear loss.
+- **Production Execution & Frontline Staffing:** Directed field operations for core setups and major regional productions (e.g., Charleston Fashion Week), supervising workflows and coordinating teams of up to 100+ volunteer and support personnel.
+- **Stakeholder Coalition Mobilization:** Mobilized regional community coalitions and networks, presenting operational metrics and performance trends to executive partners.
 
-## Selected Projects
+### Personal Assistant & Project Manager
+Independent Contractor | October 2018 – December 2020
 
-### Transit-Accessible Provider Routing (The WHO Project)
+- **Calendar Management & Project Coordination:** Managed personal and business calendars, demonstrating strong organizational skills and prioritization of client needs under tight timelines.
+- **Cross-Cultural Regulatory Navigation:** Offered solutions to international clients by guiding them through complex US compliance documentation and tax requirements.
 
-Architecting a dbt and BigQuery ELT pipeline to integrate NYS Medicaid/Medicare Provider data with MTA Static GTFS transit data. Utilizing Slowly Changing Dimensions to track provider mobility and bridge the geospatial "referral gap" for patients over systemic barriers.
+## Technical Portfolio & Academic Projects
 
-### Patient Experience Survey Clustering
+### Warm Hand-Off Provider Routing (WHO Project)
+Architecting a serverless AWS (Lambda, S3) cloud framework to transition manual referral lists into an automated REST API technology integration pipeline, connecting active Medicaid/Medicare providers with MTA transit infrastructure.
 
-Designing a KMeans-based clustering workflow for open-ended patient-experience survey comments, with the goal of converting unstructured feedback into interpretable service themes and actionable operational insight.
+### Patient Experience Survey Clustering (PEX Project)
+Architected machine learning workflows utilizing NLP, TF-IDF vectorization, and Python scripting (KMeans) to cluster unstructured survey comments into interpretable operational service themes.
 
-### Geospatial Advocacy & Predictive Modeling
+### Complaints & Inspections Platform (CI Project)
+Engineered automated Python ingestion pipelines on Google Cloud Run for Socrata APIs; built dbt transformation architecture compiling NYC 311 and DOHMH datasets into a unified Kimball star schema.
 
-Built a contextual statistical model using Poisson regression to evaluate socioeconomic resource drivers in New York City, unmasking institutional anomalies that distort public healthcare allocation.  
-
-### Healthcare Systems Modeling Research
-
-Conducted a comprehensive 15-year literature review analyzing quantitative modeling methodologies within healthcare ecosystems. Evaluated historical operational bottlenecks, current systemic solutions, and unaddressed gaps in care delivery optimization.
-
-### Statistical Analysis of Clinical Metrics
-
-Utilized R to execute simple linear regression modeling, evaluating the effects of specific independent variables on patient glucose levels to demonstrate foundational competency in programmatic data evaluation.
+### Epidemiological SDOH Analytics Engine (SDOH Project)
+Engineered offset Poisson regression models to analyze public health outcomes across 141 NYC ZIP codes; programmed Pandas cleaning scripts to resolve privacy-suppressed negative flags (-1, -5, -8, -9) and unmasked institutional anomalies (Rikers Island).
 
 ## Education
 
-### Master of Science, Quantitative Methods and Modeling
-Baruch College, Zicklin School of Business | June 2026
+### Master of Science, Quantitative Methods and Modeling (GPA: 3.525)
+Baruch College, Zicklin School of Business, New York, NY | June 2026  
+*Relevant Coursework:* Principles of Database Management, Programming for Analytics, Data Warehousing & Analytics, Systems Simulation Modeling.
 
-Relevant coursework includes Data Warehousing and Analytics, Simulation Modeling and Analysis, Modern Regression Analysis, Corporate Finance, Data Visualization, Data Mining for Business Analytics, Principles of Database Management, and Programming for Analytics.
+### Bachelor of Arts, French (Minor: Art History) (GPA: 3.633)
+Francis Marion University, Florence, SC  
+*Graduated cum laude with University Honors | Dean's List | President's List*
 
-### Bachelor of Arts, French; Minor in Art History
-Francis Marion University
+## Certifications & Community
 
-## Certifications
+- **Alteryx Designer Core Certified**, Alteryx
+- **Certified TESLA Instructor**, Literacy Assistance Center Academy (Instructional Design & Adult Education)
+- **Co-Founder & Event Producer**, Queer Roots Cinema (30-member intergenerational community program)
 
-- Alteryx Designer Core Certification, Alteryx
-- Teaching English as a Second or Foreign Language, Literacy Assistance Center Academy
-- DELF A1/A2, Université de Caen Basse-Normandie
-- Certified COVID-19 Contact Tracer, Johns Hopkins University
+## Validated Skills & Standardized Assessments
 
-## Community Leadership
-
-Co-Founder and Event Producer, Queer Roots Cinema | 2021-Present
+- **SHL Microsoft Excel Assessment:** 100/100 (91st Percentile — Perfect Score in Advanced Formulas & PivotTables)
+- **SHL Microsoft Word Assessment:** 93/100 (92nd Percentile — Advanced Mail Merge & Formatting)
 
 ## Contact
 
-Email: prestoncarey90@gmail.com  
-Phone: 843.694.6959  
-LinkedIn: linkedin.com/in/preston-leslie/
+Email: prestoncarey90@gmail.com | Phone: 843.694.6959  
+LinkedIn: [linkedin.com/in/preston-leslie](https://www.linkedin.com/in/preston-leslie/) | Portfolio: [prestoncarey90.github.io/portfolio/](https://prestoncarey90.github.io/portfolio/)

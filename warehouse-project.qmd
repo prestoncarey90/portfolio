@@ -1,11 +1,11 @@
 ---
-title: "Complaints & Inspections Project (CIP): GCP & dbt Data Platform for Municipal Scale Infrastructure"
+title: "Complaints & Inspections (CI) Project: GCP & dbt Data Platform for Municipal Scale Infrastructure"
 description: "Transforming raw municipal data into a unified analytical data bus to drive proactive operational monitoring and strategic oversight."
 categories: [Data Architecture, GCP, dbt, SQL, Technical Program Coordination]
 ---
 
 ## Executive Summary
-To institutionalize a data-driven Complaints & Inspections Project (CIP), I architected an end-to-end ELT pipeline integrating high-volume NYC 311 service requests and Department of Health (DOHMH) cafeteria inspection records. By designing a Kimball-style star schema and deploying automated data ingestion via Google Cloud Platform, I transformed disjointed public datasets into a unified analytical data bus. This infrastructure empowers stakeholders to move from reactive troubleshooting to proactive operational monitoring, identifying critical systemic intersections to drive continuous service improvement
+To institutionalize a data-driven Complaints & Inspections (CI) Project, I architected an end-to-end ELT pipeline integrating high-volume NYC 311 service requests and Department of Health (DOHMH) cafeteria inspection records. By designing a Kimball-style star schema and deploying automated data ingestion via Google Cloud Platform, I transformed disjointed public datasets into a unified analytical data bus. This infrastructure empowers stakeholders to move from reactive troubleshooting to proactive operational monitoring, identifying critical systemic intersections to drive continuous service improvement.
 
 ## Architecture & Technical Stack
 * **Infrastructure:** Google Cloud Platform (BigQuery, Cloud Run, Cloud Scheduler)
